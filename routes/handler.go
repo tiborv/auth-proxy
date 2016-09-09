@@ -1,20 +1,9 @@
 package routes
 
-import (
-	"net/http"
+import "net/http"
 
-	"github.com/urfave/negroni"
+var mux = http.NewServeMux()
 
-	db "../db"
-)
-
-func RootHandler() *negroni.Negroni {
-	n := negroni.Classic()
-	mux := http.NewServeMux()
-	n.Use(negroni.HandlerFunc(db.SessionMiddleware))
-	registerApiHandlers(mux)
-	n.UseHandler(mux)
-
-	return n
-
+func GetRootMux() http.Handler {
+	return SessionMiddleware(mux)
 }

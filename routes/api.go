@@ -3,19 +3,28 @@ package routes
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/tiborv/api-auth/db"
 )
 
-func registerApiHandlers(mux *http.ServeMux) *http.ServeMux {
-	mux.HandleFunc("/test", test)
-	return mux
+const apiPath = "/api"
+
+func init() {
+	mux.Handle(apiPath+"/user/create", RequireUser(createUser))
+	mux.Handle(apiPath+"/user/show", RequireUser(printUser))
 }
 
-func test(w http.ResponseWriter, r *http.Request) {
-	//user := db.User{Username: "swag", Password: "swag"}
-	//user, err := db.FindUser("sawag")
+func createUser(w http.ResponseWriter, r *http.Request) {
+	user, err := db.UserJson(r.Body)
+	if err != nil {
+		fmt.Println(w, "Could not create user")
+		return
+	}
+	user.Save()
+}
 
-	//c, _ := r.Cookie("_sess")
-	fmt.Println(r.Context().Value("user"))
+func printUser(w http.ResponseWriter, r *http.Request) {
+	session := r.Context().Value(SessionCtxKey).(db.Session)
+	fmt.Println(session.User)
 
-	//fmt.Print("test")
 }

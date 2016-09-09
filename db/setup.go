@@ -1,6 +1,6 @@
 package db
 
-import "gopkg.in/redis.v4"
+import redis "gopkg.in/redis.v4"
 
 var redisClient *redis.Client
 

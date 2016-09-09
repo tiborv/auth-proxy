@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	db "./db"
-	routes "./routes"
+	"github.com/tiborv/api-auth/db"
+	"github.com/tiborv/api-auth/routes"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 
 	s := &http.Server{
 		Addr:           ":3001",
-		Handler:        routes.RootHandler(),
+		Handler:        routes.GetRootMux(),
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
