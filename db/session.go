@@ -1,46 +1,78 @@
 package db
 
 import (
+	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
 	"log"
-	"math/rand"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Session struct {
-	Name    string
 	Key     string
 	Expires time.Time
-	User    User
+	User    *User
 }
 
-const sessionDuration = 30 * time.Minute
+const (
+	sessionDuration  = 30 * time.Minute
+	sessionPrefix    = "SESSION-"
+	sessionKeyLength = 30
+)
 
-const sessionPrefix = "SESSION-"
-const keyLength = 30
+func NewSession() Session {
+	return Session{}.InitSession(generateRandomString(sessionKeyLength))
+}
 
-func (s Session) Save() Session {
-	sessionJSON, err := json.Marshal(s)
-	if err != nil {
-		log.Println(err)
-	}
-	redisClient.Set(sessionPrefix+s.Key, sessionJSON, 0)
+func (s Session) InitSession(key string) Session {
+	s.Key = key
+	s.Expires = time.Now().Add(sessionDuration)
 	return s
 }
 
-func FindSession(key string) Session {
+func FindSession(key string) (Session, error) {
 	sessionJSON, err := redisClient.Get(sessionPrefix + key).Result()
 	if err != nil {
-		log.Println(err)
+		return Session{}, err
 	}
 	session := Session{}
 	json.Unmarshal([]byte(sessionJSON), &session)
-	return session
+	return session, nil
 }
 
-func NewSession(name string) Session {
-	return Session{Name: name, Key: generateRandomString(keyLength), Expires: time.Now().Add(sessionDuration)}.Save()
+func (s Session) Save() Session {
+	sessionJSON, jsonErr := json.Marshal(s)
+	if jsonErr != nil {
+		log.Println(jsonErr)
+	}
+	redisClient.Set(sessionPrefix+s.Key, sessionJSON, s.Expires.Sub(time.Now()))
+	return s
+}
+
+func (s Session) Auth(u User) (Session, error) {
+	dbUser, notFound := FindUser(u.Username)
+	if notFound != nil {
+		return s, notFound
+	}
+	notCorrectPass := bcrypt.CompareHashAndPassword(dbUser.Password, u.Password)
+	if notFound != nil {
+		return s, notCorrectPass
+	}
+	s.User = &dbUser
+	return s.Save(), nil
+
+}
+
+func (s Session) SetUser(u User) Session {
+	s.User = &u
+	return s.Save()
+}
+
+func (s Session) RemoveUser() Session {
+	s.User = nil
+	return s.Save()
 }
 
 func generateRandomBytes(n int) ([]byte, error) {
@@ -54,7 +86,7 @@ func generateRandomBytes(n int) ([]byte, error) {
 	return b, nil
 }
 
-func generateRandomString(s int) string {
-	b, _ := generateRandomBytes(s)
+func generateRandomString(n int) string {
+	b, _ := generateRandomBytes(n)
 	return base64.URLEncoding.EncodeToString(b)
 }

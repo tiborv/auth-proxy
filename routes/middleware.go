@@ -1,43 +1,38 @@
 package routes
 
 import (
-	"context"
+	"fmt"
 	"net/http"
+	"regexp"
 
 	"github.com/tiborv/api-auth/db"
 )
 
-const cookieName = "_sess"
-
-type contextKeys int
-
-const (
-	SessionCtxKey contextKeys = iota
-	UserCtxKey
-)
-
-func SessionMiddleware(h http.Handler) http.Handler {
+func RequireUser(h http.HandlerFunc) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		c, noCookie := r.Cookie(cookieName)
-		if noCookie != nil {
-			s := db.NewSession(cookieName)
-			h.ServeHTTP(w, bindToRequest(w, r, s))
+		session := r.Context().Value(SessionCtxKey).(db.Session)
+		if session.User != nil {
+			h(w, r)
 			return
 		}
-		s := db.FindSession(c.Value)
-		h.ServeHTTP(w, bindToRequest(w, r, s))
+		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprint(w, "Not authenticated")
+
 	})
 }
 
-func bindToRequest(w http.ResponseWriter, r *http.Request, s db.Session) *http.Request {
-	http.SetCookie(w, &http.Cookie{Name: cookieName, Value: s.Key, Expires: s.Expires})
-	return r.WithContext(context.WithValue(r.Context(), SessionCtxKey, s))
-}
+var apiPrefix = regexp.MustCompile(`^\/api`)
+var staicPrefix = regexp.MustCompile(`^\/static`)
 
-func RequireUser(h http.HandlerFunc) http.Handler {
+func StaticFileMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//session := r.Context().Value(SessionCtxKey).(db.Session)
-		h(w, r)
-
+		switch {
+		case apiPrefix.MatchString(r.URL.Path):
+			h.ServeHTTP(w, r)
+		case staicPrefix.MatchString(r.URL.Path):
+			http.ServeFile(w, r, r.URL.Path[1:])
+		default:
+			http.ServeFile(w, r, "./static/index.html")
+		}
 	})
 }
