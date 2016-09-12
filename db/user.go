@@ -14,7 +14,7 @@ type User struct {
 }
 
 const userPrefix = "USER-"
-const passwordCost = 8
+const passwordHashCost = 8
 
 func UserJson(requestBody io.Reader) (User, error) {
 	user := User{}
@@ -23,11 +23,11 @@ func UserJson(requestBody io.Reader) (User, error) {
 }
 
 func (u User) Save() User {
-	if u.AlreadyExists() || u.Password == nil {
+	if u.Password == nil {
 		fmt.Println("User not saved")
 		return u
 	}
-	u.Password, _ = bcrypt.GenerateFromPassword([]byte(u.Password), passwordCost)
+	u.SetPassword([]byte(u.Password))
 	jsonUser, err := json.Marshal(u)
 	if err != nil {
 		fmt.Println("user serialization err:", err)
@@ -35,6 +35,16 @@ func (u User) Save() User {
 	}
 
 	redisClient.Set(userPrefix+u.Username, jsonUser, 0)
+	return u
+}
+
+func (u User) SetPassword(password []byte) User {
+	hash, err := bcrypt.GenerateFromPassword(password, passwordHashCost)
+	if err != nil {
+		fmt.Println("Password hash err")
+		return u
+	}
+	u.Password = hash
 	return u
 }
 
@@ -47,15 +57,26 @@ func FindUser(username string) (User, error) {
 
 func FindAllUsers() ([]User, error) {
 	users, err := redisClient.Keys(userPrefix + "*").Result()
-	result := make([]User, len(users))
-	for i, u := range users {
-		dbUser, _ := FindUser(u)
-		result[i] = dbUser
+	if err != nil {
+		fmt.Println("FindAllUsers rediserr")
+		return []User{}, err
 	}
-	return result, err
+	return PopulateUsers(users)
 }
 
-func (u User) AlreadyExists() bool {
+func PopulateUsers(users []string) ([]User, error) {
+	result := make([]User, len(users))
+	for i, u := range users {
+		dbUser, err := FindUser(u)
+		if err != nil {
+			return []User{}, err
+		}
+		result[i] = dbUser
+	}
+	return result, nil
+}
+
+func (u User) Exists() bool {
 	exists, _ := redisClient.Exists(userPrefix + u.Username).Result()
 	return exists
 }

@@ -1,7 +1,7 @@
-import * as api from '../utils/authAPI'
+import * as api from '../utils/auth'
 
-const LOGIN_SUCESS = 'LOGIN_SUCESS'
-const LOGIN_FAILED = 'LOGIN_FAILED'
+export const LOGIN_SUCESS = 'LOGIN_SUCESS'
+export const LOGIN_FAILED = 'LOGIN_FAILED'
 
 export const login = (username, password) => (dispatch) => {
   api

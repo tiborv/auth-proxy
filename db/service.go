@@ -16,7 +16,7 @@ const (
 )
 
 func (s Service) InitService() Service {
-	s.Id = string(CountServices())
+	s.Id = generateRandomString(serviceKeyLength)
 	return s
 }
 
@@ -45,4 +45,9 @@ func FindService(id string) (Service, error) {
 func CountServices() int {
 	results, _ := redisClient.Keys(servicePrefix).Result()
 	return len(results)
+}
+
+func (s Service) Exists() bool {
+	exists, _ := redisClient.Exists(servicePrefix + s.Id).Result()
+	return exists
 }

@@ -1,8 +1,6 @@
 package db
 
 import (
-	"crypto/rand"
-	"encoding/base64"
 	"encoding/json"
 	"log"
 	"time"
@@ -73,20 +71,4 @@ func (s Session) SetUser(u User) Session {
 func (s Session) RemoveUser() Session {
 	s.User = nil
 	return s.Save()
-}
-
-func generateRandomBytes(n int) ([]byte, error) {
-	b := make([]byte, n)
-	_, err := rand.Read(b)
-	// Note that err == nil only if we read len(b) bytes.
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
-}
-
-func generateRandomString(n int) string {
-	b, _ := generateRandomBytes(n)
-	return base64.URLEncoding.EncodeToString(b)
 }

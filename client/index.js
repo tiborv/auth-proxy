@@ -7,7 +7,7 @@ import store from './reducers'
 
 render(
   <Provider store={store}>
-  <Router store={store}/>
+    <Router store={store}/>
   </Provider>,
   document.getElementById('root')
 )

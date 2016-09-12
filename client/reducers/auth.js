@@ -1,3 +1,5 @@
+import { LOGIN_SUCESS, LOGIN_FAILED } from '../actions/login'
+
 const auth = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN_SUCESS':

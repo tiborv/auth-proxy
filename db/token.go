@@ -51,3 +51,17 @@ func (t Token) Save() Token {
 	redisClient.Set(tokenPrefix+t.Id, jsonToken, 0)
 	return t
 }
+
+func (t Token) AddService(serviceId string) Token {
+	if stringInSlice(serviceId, t.Services) {
+		fmt.Println("Service already associated with token")
+		return t
+	}
+	t.Services = append(t.Services, serviceId)
+	return t.Save()
+}
+
+func (t Token) Exists() bool {
+	exists, _ := redisClient.Exists(tokenPrefix + t.Id).Result()
+	return exists
+}
