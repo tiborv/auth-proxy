@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiborv/api-auth/db"
+	"github.com/tiborv/prxy/db"
 )
 
 const (

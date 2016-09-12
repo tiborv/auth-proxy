@@ -1,21 +1,21 @@
 {
-  "name": "api-auth",
+  "name": "prxy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "start": "go run main.go",
     "test": "./node_modules/.bin/eslint . --ext .js --ignore-path .gitignore"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tiborv/api-auth.git"
+    "url": "git+https://github.com/tiborv/prxy.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tiborv/api-auth/issues"
+    "url": "https://github.com/tiborv/prxy/issues"
   },
-  "homepage": "https://github.com/tiborv/api-auth#readme",
+  "homepage": "https://github.com/tiborv/prxy#readme",
   "dependencies": {
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/tiborv/api-auth/db"
-	"github.com/tiborv/api-auth/routes"
+	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/routes"
 )
 
 func main() {

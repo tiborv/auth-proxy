@@ -3,9 +3,9 @@ package routes
 import (
 	"fmt"
 	"net/http"
-	"regexp"
+	"strings"
 
-	"github.com/tiborv/api-auth/db"
+	"github.com/tiborv/prxy/db"
 )
 
 func RequireUser(h http.HandlerFunc) http.Handler {
@@ -21,18 +21,13 @@ func RequireUser(h http.HandlerFunc) http.Handler {
 	})
 }
 
-var apiPrefix = regexp.MustCompile(`^\/api`)
-var staicPrefix = regexp.MustCompile(`^\/static`)
-
 func StaticFileMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch {
-		case apiPrefix.MatchString(r.URL.Path):
+		if strings.HasPrefix(r.URL.Path, "/static") || strings.HasPrefix(r.URL.Path, "/api") {
 			h.ServeHTTP(w, r)
-		case staicPrefix.MatchString(r.URL.Path):
-			http.ServeFile(w, r, r.URL.Path[1:])
-		default:
-			http.ServeFile(w, r, "./static/index.html")
+			return
 		}
+		http.ServeFile(w, r, "./static/index.html")
+
 	})
 }
