@@ -1,7 +1,7 @@
 {
   "extends": "airbnb-base",
   "env": {
-        "browser": true,
+    "browser": true,
   },
   "rules": {
     "indent": ["error", 2, { "SwitchCase": 1 }],
@@ -19,6 +19,7 @@
     "no-confusing-arrow": 0,
     "default-case": 0,
     "arrow-parens": 0,
+    "no-return-assign": 0,
     "semi": ["error", "never"],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "import/prefer-default-export": 0,

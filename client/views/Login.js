@@ -1,9 +1,9 @@
 import React from 'react'
-import LoginUser from '../containers/LoginUser'
+import LoginBox from '../containers/LoginBox'
 
 const LoginView = () => (
   <div>
-    <LoginUser />
+    <LoginBox />
   </div>
 )
 
