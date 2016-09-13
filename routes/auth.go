@@ -17,16 +17,17 @@ func init() {
 func login(w http.ResponseWriter, r *http.Request) {
 	user, _ := db.UserJson(r.Body)
 	s, err := GetSession(r).Auth(user)
-	if err == nil {
-		bindToRequest(w, r, s)
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, "Logged in")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Println(err)
+		fmt.Fprint(w, "Not logged in, bad username or password?")
 		return
 	}
-	w.WriteHeader(http.StatusBadRequest)
-	fmt.Fprint(w, "Not logged in, bad username or password?")
-
+	bindToRequest(w, r, s)
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, "Logged in")
 }
+
 func logout(w http.ResponseWriter, r *http.Request) {
 	GetSession(r).RemoveUser().Save()
 }

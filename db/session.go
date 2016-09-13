@@ -2,6 +2,7 @@ package db
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
 
@@ -21,7 +22,7 @@ const (
 )
 
 func NewSession() Session {
-	return Session{}.InitSession(generateRandomString(sessionKeyLength))
+	return Session{}.InitSession(randomStringCrypto(sessionKeyLength))
 }
 
 func (s Session) InitSession(key string) Session {
@@ -52,10 +53,12 @@ func (s Session) Save() Session {
 func (s Session) Auth(u User) (Session, error) {
 	dbUser, notFound := FindUser(u.Username)
 	if notFound != nil {
+		fmt.Println("Auth: user not found")
 		return s, notFound
 	}
 	notCorrectPass := bcrypt.CompareHashAndPassword(dbUser.Password, u.Password)
 	if notFound != nil {
+		fmt.Println("Auth: user not correct pass")
 		return s, notCorrectPass
 	}
 	s.User = &dbUser

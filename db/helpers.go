@@ -1,8 +1,9 @@
 package db
 
 import (
-	"crypto/rand"
+	crypto "crypto/rand"
 	"encoding/base64"
+	"math/rand"
 )
 
 func stringInSlice(a string, list []string) bool {
@@ -14,17 +15,18 @@ func stringInSlice(a string, list []string) bool {
 	return false
 }
 
-func generateRandomBytes(n int) ([]byte, error) {
+func randomStringCrypto(n int) string {
 	b := make([]byte, n)
-	_, err := rand.Read(b)
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
+	crypto.Read(b)
+	return base64.URLEncoding.EncodeToString(b)
 }
 
-func generateRandomString(n int) string {
-	b, _ := generateRandomBytes(n)
-	return base64.URLEncoding.EncodeToString(b)
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+func randomString(n int) string {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
+	}
+	return string(b)
 }
