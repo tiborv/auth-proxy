@@ -13,8 +13,9 @@ const tokenPath = "/api/token"
 func init() {
 	mux.Handle(tokenPath+"/list", RequireUser(listToken))
 	mux.Handle(tokenPath+"/update", RequireUser(updateToken))
-	mux.Handle(tokenPath+"/delete", RequireUser(deleteToken))
 	mux.Handle(tokenPath+"/create", RequireUser(createToken))
+	mux.Handle(tokenPath+"/delete", RequireUser(deleteToken))
+
 }
 
 func listToken(w http.ResponseWriter, r *http.Request) {
@@ -26,6 +27,7 @@ func listToken(w http.ResponseWriter, r *http.Request) {
 func createToken(w http.ResponseWriter, r *http.Request) {
 	token, saveErr := db.Token{}.Init().Save()
 	if saveErr != nil {
+		fmt.Println("Token create err:", saveErr)
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Token not created")
 		return
@@ -35,25 +37,28 @@ func createToken(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateToken(w http.ResponseWriter, r *http.Request) {
-	token, err := db.TokenJson(r.Body)
-	if err != nil {
+	token, jsonErr := db.TokenJson(r.Body)
+	if jsonErr != nil {
+		fmt.Println("Token update jsonErr:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Token not updated")
 		return
 	}
-	_, saveErr := token.Save()
+	savedToken, saveErr := token.Save()
 	if saveErr != nil {
+		fmt.Println("Token update err:", saveErr)
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Token not updated")
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(token)
+	json.NewEncoder(w).Encode(savedToken)
 }
 
 func deleteToken(w http.ResponseWriter, r *http.Request) {
-	token, err := db.TokenJson(r.Body)
-	if err != nil {
+	token, jsonErr := db.TokenJson(r.Body)
+	if jsonErr != nil {
+		fmt.Println("Token delete jsonErr:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Token not deleted")
 		return

@@ -24,21 +24,29 @@ func listService(w http.ResponseWriter, r *http.Request) {
 }
 
 func createService(w http.ResponseWriter, r *http.Request) {
-	service, saveErr := db.Service{}.Init().Save()
+	service, jsonErr := db.ServiceJson(r.Body)
+	if jsonErr != nil {
+		fmt.Println("Service create json err:", jsonErr)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Service not created, malformed json")
+		return
+	}
+	savedService, saveErr := service.Init().Save()
 	if saveErr != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Service not created")
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(service)
+	json.NewEncoder(w).Encode(savedService)
 }
 
 func updateService(w http.ResponseWriter, r *http.Request) {
-	service, err := db.ServiceJson(r.Body)
-	if err != nil {
+	service, jsonErr := db.ServiceJson(r.Body)
+	if jsonErr != nil {
+		fmt.Println("Service update json err:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service not updated")
+		fmt.Fprint(w, "Service not updated, malformed json")
 		return
 	}
 	_, saveErr := service.Save()
@@ -52,10 +60,11 @@ func updateService(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteService(w http.ResponseWriter, r *http.Request) {
-	service, err := db.ServiceJson(r.Body)
-	if err != nil {
+	service, jsonErr := db.ServiceJson(r.Body)
+	if jsonErr != nil {
+		fmt.Println("Service delete json err:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service not deleted")
+		fmt.Fprint(w, "Service not deleted, malformed json")
 		return
 	}
 	deleted := service.Delete()

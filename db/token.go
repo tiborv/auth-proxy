@@ -14,7 +14,7 @@ type Token struct {
 
 const (
 	tokenPrefix   = "TOKEN-"
-	tokenIdLength = 30
+	tokenIdLength = 64
 )
 
 func (t Token) Init() Token {
@@ -36,8 +36,8 @@ func FindToken(id string) (Token, error) {
 func FindAllTokens() ([]Token, error) {
 	tokens, err := redisClient.Keys(tokenPrefix + "*").Result()
 	results := make([]Token, len(tokens))
-	for i, t := range tokens {
-		dbToken, _ := FindToken(t)
+	for i, tid := range tokens {
+		dbToken, _ := FindToken(tid)
 		results[i] = dbToken
 	}
 	return results, err
@@ -46,7 +46,7 @@ func FindAllTokens() ([]Token, error) {
 func (t Token) Save() (Token, error) {
 	jsonToken, err := json.Marshal(t)
 	if err != nil {
-		fmt.Println("user serialization err:", err)
+		fmt.Println("Token serialization err:", err)
 		return t, err
 	}
 	if t.Id == "" {
@@ -67,9 +67,9 @@ func (t Token) AddService(serviceId string) (Token, error) {
 }
 
 func (t Token) Delete() bool {
-	deleted, err := redisClient.Del(servicePrefix + t.Id).Result()
+	deleted, err := redisClient.Del(tokenPrefix + t.Id).Result()
 	if err != nil {
-		fmt.Println("Service delete err: ", err)
+		fmt.Println("Token delete err: ", err)
 		return false
 	}
 	return deleted > 0
