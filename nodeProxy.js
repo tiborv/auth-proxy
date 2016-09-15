@@ -1,9 +1,15 @@
-var http = require('http');
+var express    = require('express')
+var bodyParser = require('body-parser')
 
-var server = http.createServer();
-server.on('request', function(request, response) {
-  console.log(request.headers)
+var app = express()
 
-});
+// parse application/json
+app.use(bodyParser.json())
 
-server.listen(5000);
+app.use(function (req, res, next) {
+  console.log(req.headers)
+  console.log(req.body) // populated!
+  next()
+})
+
+app.listen(5000);

@@ -3,18 +3,19 @@ package db
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 )
 
 type Service struct {
-	Url  string `json:"url"`
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Url    string   `json:"url"`
+	Id     string   `json:"id"`
+	Name   string   `json:"name"`
+	Tokens []string `json:"tokens"`
 }
 
 const (
 	servicePrefix    = "SERVICE-"
+	tokenPrefix      = "TOKENS-"
 	serviceKeyLength = 16
 )
 
@@ -30,21 +31,30 @@ func NewService(url, name string) Service {
 func (s Service) Save() (Service, error) {
 	jsonService, err := json.Marshal(s)
 	if err != nil {
-		fmt.Println("user serialization err:", err)
 		return s, err
 	}
 	if s.Id == "" || s.Name == "" || s.Url == "" {
-		fmt.Println("Service missing fields")
 		return s, errors.New("Service missing fields")
+	}
+	redisClient.Del(tokenPrefix + s.Id)
+	for _, t := range s.Tokens {
+		redisClient.SAdd(tokenPrefix+s.Id, t)
 	}
 	redisClient.Set(servicePrefix+s.Id, jsonService, 0)
 	return s, nil
 }
 
-func FindService(id string) (Service, error) {
-	jsonService, err := redisClient.Get(id).Result()
+func FindService(redisId string) (Service, error) {
+	return FindServiceById(redisId[len(servicePrefix):])
+}
+
+func FindServiceById(id string) (Service, error) {
+	jsonService, err := redisClient.Get(servicePrefix + id).Result()
 	service := Service{}
 	json.Unmarshal([]byte(jsonService), &service)
+
+	tokens, _ := redisClient.SMembers(tokenPrefix + id).Result()
+	service.Tokens = tokens
 	return service, err
 }
 
@@ -62,7 +72,6 @@ func ServiceJson(requestBody io.Reader) (Service, error) {
 func (s Service) Delete() bool {
 	servicesDeleted, err := redisClient.Del(servicePrefix + s.Id).Result()
 	if err != nil {
-		fmt.Println("Service delete err: ", err)
 		return false
 	}
 	return servicesDeleted > 0
@@ -71,7 +80,6 @@ func (s Service) Delete() bool {
 func FindAllServices() ([]Service, error) {
 	services, err := redisClient.Keys(servicePrefix + "*").Result()
 	if err != nil {
-		fmt.Println("FindAllServices rediserr")
 		return []Service{}, err
 	}
 	return PopulateServices(services)
@@ -87,4 +95,9 @@ func PopulateServices(services []string) ([]Service, error) {
 		result[i] = dbService
 	}
 	return result, nil
+}
+
+func GetUrlOfService(id string) (string, error) {
+	service, err := FindServiceById(id)
+	return service.Url, err
 }
