@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { login } from '../actions/login'
+import { Link } from 'react-router'
 
 
 const LoginUser = ({ dispatch }) => {
@@ -9,11 +9,7 @@ const LoginUser = ({ dispatch }) => {
 
   return (
     <div>
-      <input ref={ node => username = node } />
-      <input ref={ node => password = node } />
-      <button onClick={() => dispatch(login(username.value, password.value))}>
-        Log in
-      </button>
+      <a href='/api/oauth/login'>Login</a>
     </div>
   )
 }

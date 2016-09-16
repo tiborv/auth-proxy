@@ -8,10 +8,10 @@ import (
 	"github.com/tiborv/prxy/models"
 )
 
-func RequireUser(h http.HandlerFunc) http.Handler {
+func RequireAuth(h http.HandlerFunc) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		session := r.Context().Value(SessionCtxKey).(models.Session)
-		if session.User != nil {
+		if session.Auth {
 			h(w, r)
 			return
 		}

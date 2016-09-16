@@ -11,10 +11,10 @@ import (
 const clientPath = "/api/client"
 
 func init() {
-	mux.Handle(clientPath+"/list", RequireUser(listClient))
-	mux.Handle(clientPath+"/update", RequireUser(updateClient))
-	mux.Handle(clientPath+"/create", RequireUser(createClient))
-	mux.Handle(clientPath+"/delete", RequireUser(deleteClient))
+	mux.Handle(clientPath+"/list", RequireAuth(listClient))
+	mux.Handle(clientPath+"/update", RequireAuth(updateClient))
+	mux.Handle(clientPath+"/create", RequireAuth(createClient))
+	mux.Handle(clientPath+"/delete", RequireAuth(deleteClient))
 
 }
 

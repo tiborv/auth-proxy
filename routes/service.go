@@ -11,10 +11,10 @@ import (
 const servicePath = "/api/service"
 
 func init() {
-	mux.Handle(servicePath+"/list", RequireUser(listService))
-	mux.Handle(servicePath+"/update", RequireUser(updateService))
-	mux.Handle(servicePath+"/delete", RequireUser(deleteService))
-	mux.Handle(servicePath+"/create", RequireUser(createService))
+	mux.Handle(servicePath+"/list", RequireAuth(listService))
+	mux.Handle(servicePath+"/update", RequireAuth(updateService))
+	mux.Handle(servicePath+"/delete", RequireAuth(deleteService))
+	mux.Handle(servicePath+"/create", RequireAuth(createService))
 }
 
 func listService(w http.ResponseWriter, r *http.Request) {

@@ -2,23 +2,20 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"time"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Session struct {
 	Key     string
 	Expires time.Time
-	User    *User
+	Auth    bool
 }
 
 const (
 	sessionDuration  = 30 * time.Minute
 	sessionPrefix    = "SESSION-"
-	sessionKeyLength = 30
+	sessionKeyLength = 64
 )
 
 func NewSession() Session {
@@ -50,28 +47,7 @@ func (s Session) Save() Session {
 	return s
 }
 
-func (s Session) Auth(u User) (Session, error) {
-	dbUser, notFound := FindUser(u.Username)
-	if notFound != nil {
-		fmt.Println("Auth: user not found")
-		return s, notFound
-	}
-	notCorrectPass := bcrypt.CompareHashAndPassword(dbUser.Password, u.Password)
-	if notFound != nil {
-		fmt.Println("Auth: user not correct pass")
-		return s, notCorrectPass
-	}
-	s.User = &dbUser
-	return s.Save(), nil
-
-}
-
-func (s Session) SetUser(u User) Session {
-	s.User = &u
-	return s.Save()
-}
-
-func (s Session) RemoveUser() Session {
-	s.User = nil
+func (s Session) Authenticate() Session {
+	s.Auth = true
 	return s.Save()
 }
