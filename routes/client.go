@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/models"
 )
 
 const clientPath = "/api/client"
@@ -19,13 +19,13 @@ func init() {
 }
 
 func listClient(w http.ResponseWriter, r *http.Request) {
-	clients, _ := db.FindAllClients()
+	clients, _ := models.FindAllClients()
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(clients)
 }
 
 func createClient(w http.ResponseWriter, r *http.Request) {
-	client, jsonErr := db.ClientJson(r.Body)
+	client, jsonErr := models.ClientJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Client create jsonErr:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
@@ -44,7 +44,7 @@ func createClient(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateClient(w http.ResponseWriter, r *http.Request) {
-	client, jsonErr := db.ClientJson(r.Body)
+	client, jsonErr := models.ClientJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Client update jsonErr:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
@@ -63,7 +63,7 @@ func updateClient(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteClient(w http.ResponseWriter, r *http.Request) {
-	client, jsonErr := db.ClientJson(r.Body)
+	client, jsonErr := models.ClientJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Client delete jsonErr:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)

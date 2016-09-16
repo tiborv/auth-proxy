@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/models"
 )
 
 const servicePath = "/api/service"
@@ -18,13 +18,13 @@ func init() {
 }
 
 func listService(w http.ResponseWriter, r *http.Request) {
-	services, _ := db.FindAllServices()
+	services, _ := models.FindAllServices()
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(services)
 }
 
 func createService(w http.ResponseWriter, r *http.Request) {
-	service, jsonErr := db.ServiceJson(r.Body)
+	service, jsonErr := models.ServiceJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Service create json err:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
@@ -48,7 +48,7 @@ func createService(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateService(w http.ResponseWriter, r *http.Request) {
-	service, jsonErr := db.ServiceJson(r.Body)
+	service, jsonErr := models.ServiceJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Service update json err:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)
@@ -73,7 +73,7 @@ func updateService(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteService(w http.ResponseWriter, r *http.Request) {
-	service, jsonErr := db.ServiceJson(r.Body)
+	service, jsonErr := models.ServiceJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Service delete json err:", jsonErr)
 		w.WriteHeader(http.StatusBadRequest)

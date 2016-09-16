@@ -6,12 +6,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/models"
 	"github.com/tiborv/prxy/routes"
 )
 
 func main() {
-	db.Connect()
+	models.Connect()
 
 	s := &http.Server{
 		Addr:           ":" + os.Getenv("PORT"),

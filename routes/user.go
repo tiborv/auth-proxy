@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/models"
 )
 
 const (
@@ -21,7 +21,7 @@ func init() {
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
-	user, err := db.UserJson(r.Body)
+	user, err := models.UserJson(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "User not created")
@@ -33,13 +33,13 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func showUser(w http.ResponseWriter, r *http.Request) {
-	session := r.Context().Value(SessionCtxKey).(db.Session)
+	session := r.Context().Value(SessionCtxKey).(models.Session)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprint(w, session.User)
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) {
-	user, err := db.UserJson(r.Body)
+	user, err := models.UserJson(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "User not deleted")
@@ -51,7 +51,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func listUsers(w http.ResponseWriter, r *http.Request) {
-	users, err := db.FindAllUsers()
+	users, err := models.FindAllUsers()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Somthing went wrong")

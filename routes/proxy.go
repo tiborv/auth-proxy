@@ -6,7 +6,7 @@ import (
 	"net/http/httputil"
 	"strings"
 
-	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/models"
 )
 
 const (
@@ -30,8 +30,8 @@ func GetPathSlugToken(req *http.Request) (string, string, string) {
 func proxy(w http.ResponseWriter, r *http.Request) {
 	StripPrefix(r)
 	slug, path, token := GetPathSlugToken(r)
-	service, serviceNotFound := db.FindServiceBySlug(slug)
-	authorized, tokenNotFound := db.ServiceHasToken(service.Slug, token)
+	service, serviceNotFound := models.FindServiceBySlug(slug)
+	authorized, tokenNotFound := models.ServiceHasToken(service.Slug, token)
 	if !authorized || tokenNotFound != nil || serviceNotFound != nil {
 		w.WriteHeader(http.StatusForbidden)
 		fmt.Fprint(w, "Not authorized")

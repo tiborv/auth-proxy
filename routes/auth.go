@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/models"
 )
 
 const authPath = "/api/auth"
@@ -15,7 +15,7 @@ func init() {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	user, _ := db.UserJson(r.Body)
+	user, _ := models.UserJson(r.Body)
 	s, err := GetSession(r).Auth(user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

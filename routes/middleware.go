@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/tiborv/prxy/db"
+	"github.com/tiborv/prxy/models"
 )
 
 func RequireUser(h http.HandlerFunc) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		session := r.Context().Value(SessionCtxKey).(db.Session)
+		session := r.Context().Value(SessionCtxKey).(models.Session)
 		if session.User != nil {
 			h(w, r)
 			return
