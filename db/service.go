@@ -3,53 +3,60 @@ package db
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 )
 
 type Service struct {
-	Url  string `json:"url"`
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Url    string   `json:"url"`
+	Host   string   `json:"host"`
+	Scheme string   `json:"scheme"`
+	Slug   string   `json:"slug"`
+	Tokens []string `json:"tokens"`
 }
 
 const (
 	servicePrefix    = "SERVICE-"
+	tokenPrefix      = "TOKEN-"
 	serviceKeyLength = 16
 )
 
-func (s Service) Init() Service {
-	s.Id = randomString(serviceKeyLength)
-	return s
-}
-
-func NewService(url, name string) Service {
-	return Service{Url: url, Name: name}.Init()
+func NewService(url, slug string) Service {
+	return Service{Url: url, Slug: slug}
 }
 
 func (s Service) Save() (Service, error) {
 	jsonService, err := json.Marshal(s)
 	if err != nil {
-		fmt.Println("user serialization err:", err)
 		return s, err
 	}
-	if s.Id == "" || s.Name == "" || s.Url == "" {
-		fmt.Println("Service missing fields")
+	if s.Slug == "" || s.Host == "" || s.Url == "" {
 		return s, errors.New("Service missing fields")
 	}
-	redisClient.Set(servicePrefix+s.Id, jsonService, 0)
+	if s.Scheme == "" {
+		s.Scheme = "http"
+	}
+	for _, t := range s.Tokens {
+		redisClient.SAdd(tokenPrefix+s.Slug, t)
+	}
+	redisClient.Set(servicePrefix+s.Slug, jsonService, 0)
 	return s, nil
 }
 
-func FindService(id string) (Service, error) {
-	jsonService, err := redisClient.Get(id).Result()
+func FindService(redisKey string) (Service, error) {
+	return FindServiceBySlug(redisKey[len(servicePrefix):])
+}
+
+func FindServiceBySlug(slug string) (Service, error) {
+	jsonService, err := redisClient.Get(servicePrefix + slug).Result()
 	service := Service{}
 	json.Unmarshal([]byte(jsonService), &service)
+	tokens, _ := redisClient.SMembers(tokenPrefix + slug).Result()
+	service.Tokens = tokens
 	return service, err
 }
 
 func (s Service) Exists() bool {
-	exists, _ := redisClient.Exists(servicePrefix + s.Id).Result()
+	exists, _ := redisClient.Exists(servicePrefix + s.Slug).Result()
 	return exists
 }
 
@@ -60,9 +67,8 @@ func ServiceJson(requestBody io.Reader) (Service, error) {
 }
 
 func (s Service) Delete() bool {
-	servicesDeleted, err := redisClient.Del(servicePrefix + s.Id).Result()
+	servicesDeleted, err := redisClient.Del(servicePrefix + s.Slug).Result()
 	if err != nil {
-		fmt.Println("Service delete err: ", err)
 		return false
 	}
 	return servicesDeleted > 0
@@ -71,7 +77,6 @@ func (s Service) Delete() bool {
 func FindAllServices() ([]Service, error) {
 	services, err := redisClient.Keys(servicePrefix + "*").Result()
 	if err != nil {
-		fmt.Println("FindAllServices rediserr")
 		return []Service{}, err
 	}
 	return PopulateServices(services)
@@ -87,4 +92,13 @@ func PopulateServices(services []string) ([]Service, error) {
 		result[i] = dbService
 	}
 	return result, nil
+}
+
+func GetUrlOfService(slug string) (string, error) {
+	service, err := FindServiceBySlug(slug)
+	return service.Url, err
+}
+
+func ServiceHasToken(serviceSlug, token string) (bool, error) {
+	return redisClient.SIsMember(tokenPrefix+serviceSlug, token).Result()
 }

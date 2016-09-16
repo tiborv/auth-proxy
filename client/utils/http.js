@@ -21,6 +21,7 @@ export function httpGet(url, query) {
       .query(query)
       .end((err, res) => {
         if (err) return reject(err)
+        console.log('BODY', res)
         return resolve(res.body)
       })
   })

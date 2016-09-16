@@ -24,6 +24,7 @@ func RequireUser(h http.HandlerFunc) http.Handler {
 func StaticFileMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/static") || strings.HasPrefix(r.URL.Path, "/api") {
+			//w.Header().Set("Content-Type", "application/json")
 			h.ServeHTTP(w, r)
 			return
 		}

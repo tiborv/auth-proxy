@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/tiborv/prxy/db"
@@ -13,7 +14,7 @@ func main() {
 	db.Connect()
 
 	s := &http.Server{
-		Addr:           ":3001",
+		Addr:           ":" + os.Getenv("PORT"),
 		Handler:        routes.GetRootMux(),
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,

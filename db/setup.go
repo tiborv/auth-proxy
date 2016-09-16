@@ -2,20 +2,30 @@ package db
 
 import (
 	"fmt"
+	"os"
 
 	redis "gopkg.in/redis.v4"
 )
 
 var redisClient *redis.Client
 
-const adminUser = "ADMIN"
-const adminUserPass = "asdasdasd123"
+const (
+	adminUser     = "ADMIN"
+	adminUserPass = "asdasdasd123"
+)
 
 func Connect() {
+
+	redisUrl := os.Getenv("REDIS_URL")
+	redisPass := os.Getenv("REDIS_PASS")
+	if redisUrl == "" {
+		redisUrl = "localhost:6379"
+	}
+
 	redisClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     redisUrl,
+		Password: redisPass, // no password set
+		DB:       0,         // use default DB
 	})
 
 	_, noAdmin := FindUser(adminUser)

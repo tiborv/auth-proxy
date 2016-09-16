@@ -4,7 +4,9 @@
   "description": "",
   "scripts": {
     "start": "go run main.go",
-    "test": "./node_modules/.bin/eslint . --ext .js --ignore-path .gitignore"
+    "build": "./node_modules/.bin/webpack",
+    "test": "./node_modules/.bin/eslint . --ext .js --ignore-path .gitignore",
+    "postinstall":"npm run build"
   },
   "repository": {
     "type": "git",

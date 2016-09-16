@@ -31,8 +31,14 @@ func createService(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Service not created, malformed json")
 		return
 	}
-	savedService, saveErr := service.Init().Save()
+	if service.Exists() {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Service with this slug already exists")
+		return
+	}
+	savedService, saveErr := service.Save()
 	if saveErr != nil {
+		fmt.Println(saveErr)
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Service not created")
 		return
@@ -49,6 +55,13 @@ func updateService(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Service not updated, malformed json")
 		return
 	}
+	if !service.Exists() {
+		fmt.Println("Service update does not exist")
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "A service with this slug does not exist")
+		return
+	}
+
 	_, saveErr := service.Save()
 	if saveErr != nil {
 		w.WriteHeader(http.StatusBadRequest)

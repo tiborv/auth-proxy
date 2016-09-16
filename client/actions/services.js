@@ -13,7 +13,7 @@ export const list = () => (dispatch) => {
 export const DELETE_SUCESS = 'SERVICE.DELETE_SUCESS'
 export const del = (id) => (dispatch) => {
   api
-    .del(id)
+    .del(slug)
     .then(() => dispatch({
       type: DELETE_SUCESS,
       id
