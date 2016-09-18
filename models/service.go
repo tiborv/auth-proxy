@@ -7,16 +7,16 @@ import (
 )
 
 type Service struct {
-	Url    string   `json:"url"`
-	Host   string   `json:"host"`
-	Scheme string   `json:"scheme"`
-	Slug   string   `json:"slug"`
-	Tokens []string `json:"tokens"`
+	Url     string   `json:"url"`
+	Host    string   `json:"host"`
+	Scheme  string   `json:"scheme"`
+	Slug    string   `json:"slug"`
+	Clients []string `json:"clients"`
 }
 
 const (
 	servicePrefix    = "SERVICE-"
-	tokenPrefix      = "TOKEN-"
+	tokenPrefix      = "TOKENS-"
 	serviceKeyLength = 16
 )
 
@@ -35,8 +35,9 @@ func (s Service) Save() (Service, error) {
 	if s.Scheme == "" {
 		s.Scheme = "http"
 	}
-	for _, t := range s.Tokens {
-		redisClient.SAdd(tokenPrefix+s.Slug, t)
+	redisClient.Del(tokenPrefix + s.Slug).Result()
+	for _, c := range s.Clients {
+		redisClient.SAdd(tokenPrefix+s.Slug, c)
 	}
 	redisClient.Set(servicePrefix+s.Slug, jsonService, 0)
 	return s, nil
@@ -50,8 +51,8 @@ func FindServiceBySlug(slug string) (Service, error) {
 	jsonService, err := redisClient.Get(servicePrefix + slug).Result()
 	service := Service{}
 	json.Unmarshal([]byte(jsonService), &service)
-	tokens, _ := redisClient.SMembers(tokenPrefix + slug).Result()
-	service.Tokens = tokens
+	clients, _ := redisClient.SMembers(tokenPrefix + slug).Result()
+	service.Clients = clients
 	return service, err
 }
 
@@ -68,7 +69,9 @@ func ServiceJson(requestBody io.Reader) (Service, error) {
 
 func (s Service) Delete() bool {
 	servicesDeleted, err := redisClient.Del(servicePrefix + s.Slug).Result()
-	if err != nil {
+	_, errSet := redisClient.Del(tokenPrefix + s.Slug).Result()
+
+	if err != nil || errSet != nil {
 		return false
 	}
 	return servicesDeleted > 0

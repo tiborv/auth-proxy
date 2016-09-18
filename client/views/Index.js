@@ -1,13 +1,10 @@
 import React from 'react'
 
-const Index = ({ children }) => children ? (
+
+const IndexView = () => (
   <div>
-  { children }
-  </div>
-) : (
-  <div>
-    Index
+    <LoginBox />
   </div>
 )
 
-export default Index
+export default IndexView

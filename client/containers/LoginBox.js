@@ -9,7 +9,7 @@ const LoginUser = ({ dispatch }) => {
 
   return (
     <div>
-      <a href='/api/oauth/login'>Login</a>
+        <a className='pure-button' href='/api/oauth/login'>Login</a>
     </div>
   )
 }

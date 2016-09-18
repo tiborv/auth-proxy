@@ -19,7 +19,7 @@ func init() {
 
 func listService(w http.ResponseWriter, r *http.Request) {
 	services, _ := models.FindAllServices()
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(services)
 }
 
@@ -27,20 +27,17 @@ func createService(w http.ResponseWriter, r *http.Request) {
 	service, jsonErr := models.ServiceJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Service create json err:", jsonErr)
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service not created, malformed json")
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not created, malformed json"}.Send(w)
 		return
 	}
 	if service.Exists() {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service with this slug already exists")
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service with this slug already exists"}.Send(w)
 		return
 	}
 	savedService, saveErr := service.Save()
 	if saveErr != nil {
 		fmt.Println(saveErr)
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service not created")
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not created"}.Send(w)
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
@@ -51,21 +48,18 @@ func updateService(w http.ResponseWriter, r *http.Request) {
 	service, jsonErr := models.ServiceJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Service update json err:", jsonErr)
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service not updated, malformed json")
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not updated, malformed json"}.Send(w)
 		return
 	}
 	if !service.Exists() {
 		fmt.Println("Service update does not exist")
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "A service with this slug does not exist")
+		HttpResponse{Status: http.StatusBadRequest, Msg: "A service with this slug does not exist"}.Send(w)
 		return
 	}
 
 	_, saveErr := service.Save()
 	if saveErr != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service not updated")
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not updated"}.Send(w)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
@@ -76,17 +70,13 @@ func deleteService(w http.ResponseWriter, r *http.Request) {
 	service, jsonErr := models.ServiceJson(r.Body)
 	if jsonErr != nil {
 		fmt.Println("Service delete json err:", jsonErr)
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Service not deleted, malformed json")
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not deleted, malformed json"}.Send(w)
 		return
 	}
 	deleted := service.Delete()
-	if deleted {
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, "Service deleted")
+	if !deleted {
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not deleted"}.Send(w)
 		return
 	}
-	w.WriteHeader(http.StatusBadRequest)
-	fmt.Fprint(w, "Service not deleted")
-
+	HttpResponse{Status: http.StatusOK, Msg: "Service deleted"}.Send(w)
 }

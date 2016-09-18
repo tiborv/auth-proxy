@@ -18,6 +18,6 @@ export function update(service) {
   return httpPost(UPDATE, service)
 }
 
-export function del(id) {
-  return httpPost(DELETE, { id })
+export function del(service) {
+  return httpPost(DELETE, service)
 }

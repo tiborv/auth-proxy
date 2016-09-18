@@ -1,6 +1,10 @@
 import * as request from 'superagent'
 import Promise from 'bluebird'
 
+import { notAuthorized } from '../actions/auth'
+
+const StatusUnauthorized = 401
+
 export function httpPost(url, body) {
   return new Promise((resolve, reject) => {
     request
@@ -21,7 +25,6 @@ export function httpGet(url, query) {
       .query(query)
       .end((err, res) => {
         if (err) return reject(err)
-        console.log('BODY', res)
         return resolve(res.body)
       })
   })

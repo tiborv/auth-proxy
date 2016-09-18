@@ -13,7 +13,7 @@ type Session struct {
 }
 
 const (
-	sessionDuration  = 30 * time.Minute
+	sessionDuration  = 10 * time.Minute
 	sessionPrefix    = "SESSION-"
 	sessionKeyLength = 64
 )

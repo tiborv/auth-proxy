@@ -2,14 +2,28 @@ package routes
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/tiborv/prxy/models"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/github"
 )
 
-const oauthPath = "/api/oauth"
+type GitHubOrg struct {
+	Login string
+	Id    int
+}
+
+const (
+	oauthPath       = "/api/oauth"
+	gitHubOrgAPI    = "https://api.github.com/user/orgs"
+	dbmedialabOrgID = 1803982
+	soldontnoOrgID  = 501783
+)
 
 var config = &oauth2.Config{
 	ClientID:     "d8b2829c1f6f3e67317a",
@@ -22,6 +36,7 @@ var config = &oauth2.Config{
 func init() {
 	mux.HandleFunc(oauthPath+"/login", login)
 	mux.HandleFunc(oauthPath+"/callback", callback)
+	mux.HandleFunc(oauthPath+"/check", check)
 
 }
 
@@ -37,12 +52,32 @@ func callback(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	if tok.Valid() {
+	if tok.Valid() && UserInGitHubOrgs(tok, dbmedialabOrgID, soldontnoOrgID) {
 		s := GetSession(r)
 		s.Authenticate()
-		bindToRequest(w, r, s)
+		bindSessionToCookie(w, r, s)
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 
 	}
+}
 
+func UserInGitHubOrgs(tok *oauth2.Token, orgIDs ...int) bool {
+	t := oauth2.Transport{Source: oauth2.StaticTokenSource(tok)}
+	req, _ := http.NewRequest("GET", gitHubOrgAPI, nil)
+	resp, _ := t.RoundTrip(req)
+	userOrgs := []GitHubOrg{}
+	json.NewDecoder(resp.Body).Decode(&userOrgs)
+	for _, orgID := range orgIDs {
+		for _, userOrg := range userOrgs {
+			if userOrg.Id == orgID {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func check(w http.ResponseWriter, r *http.Request) {
+	session := r.Context().Value(SessionCtxKey).(models.Session)
+	HttpResponse{Status: http.StatusOK, Msg: strconv.FormatBool(session.Auth)}.Send(w)
 }

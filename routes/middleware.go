@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -15,20 +14,23 @@ func RequireAuth(h http.HandlerFunc) http.Handler {
 			h(w, r)
 			return
 		}
-		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(w, "Not authenticated")
-
+		HttpResponse{Status: http.StatusUnauthorized, Msg: "Not authorized"}.Send(w)
 	})
 }
 
 func StaticFileMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/static") || strings.HasPrefix(r.URL.Path, "/api") {
-			//w.Header().Set("Content-Type", "application/json")
+		switch {
+		case strings.HasPrefix(r.URL.Path, "/static"):
 			h.ServeHTTP(w, r)
-			return
+			break
+		case strings.HasPrefix(r.URL.Path, "/api"):
+			w.Header().Set("Content-Type", "application/json")
+			h.ServeHTTP(w, r)
+			break
+		default:
+			http.ServeFile(w, r, "./static/index.html")
 		}
-		http.ServeFile(w, r, "./static/index.html")
 
 	})
 }

@@ -1,4 +1,4 @@
-import * as api from '../utils/sertice'
+import * as api from '../utils/service'
 
 export const LIST_SUCESS = 'SERVICE.LIST_SUCESS'
 export const list = () => (dispatch) => {
@@ -11,12 +11,12 @@ export const list = () => (dispatch) => {
 }
 
 export const DELETE_SUCESS = 'SERVICE.DELETE_SUCESS'
-export const del = (id) => (dispatch) => {
+export const del = (service) => (dispatch) => {
   api
-    .del(slug)
+    .del(service)
     .then(() => dispatch({
       type: DELETE_SUCESS,
-      id
+      service
     }))
 }
 

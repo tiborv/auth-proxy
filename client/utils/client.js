@@ -19,6 +19,6 @@ export function update(token) {
   return httpPost(UPDATE, token)
 }
 
-export function del(token) {
-  return httpPost(DELETE, { token })
+export function del(client) {
+  return httpPost(DELETE, client)
 }

@@ -20,20 +20,20 @@ func SessionMiddleware(h http.Handler) http.Handler {
 		c, noCookie := r.Cookie(cookieName)
 		if noCookie != nil {
 			s := models.NewSession().Save()
-			h.ServeHTTP(w, bindToRequest(w, r, s))
+			h.ServeHTTP(w, bindSessionToCookie(w, r, s))
 			return
 		}
 		s, noSession := models.FindSession(c.Value)
 		if noSession != nil {
 			s := models.Session{}.InitSession(c.Value).Save()
-			h.ServeHTTP(w, bindToRequest(w, r, s))
+			h.ServeHTTP(w, bindSessionToCookie(w, r, s))
 			return
 		}
-		h.ServeHTTP(w, bindToRequest(w, r, s))
+		h.ServeHTTP(w, bindSessionToCookie(w, r, s))
 	})
 }
 
-func bindToRequest(w http.ResponseWriter, r *http.Request, s models.Session) *http.Request {
+func bindSessionToCookie(w http.ResponseWriter, r *http.Request, s models.Session) *http.Request {
 	cookie := http.Cookie{Name: cookieName, Value: s.Key, Expires: s.Expires, Path: "/"}
 	http.SetCookie(w, &cookie)
 	return r.WithContext(context.WithValue(r.Context(), SessionCtxKey, s))

@@ -1,6 +1,9 @@
 package routes
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 var mux = http.NewServeMux()
 
@@ -9,5 +12,15 @@ func init() {
 }
 
 func GetRootMux() http.Handler {
-	return SessionMiddleware(StaticFileMiddleware(mux))
+	return StaticFileMiddleware(SessionMiddleware(mux))
+}
+
+type HttpResponse struct {
+	Msg    string `json:"msg"`
+	Status int    `json:"status"`
+}
+
+func (he HttpResponse) Send(w http.ResponseWriter) {
+	w.WriteHeader(he.Status)
+	json.NewEncoder(w).Encode(he)
 }

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { list } from '../actions/client'
+import { list, del, create, update } from '../actions/client'
 import ClientList from '../components/ClientList'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -7,8 +7,14 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick: () => {
-    dispatch(list())
+  create: (client) => {
+    dispatch(create(client))
+  },
+  update: (client) => {
+    dispatch(update(client))
+  },
+  del: (client) => {
+    dispatch(del(client))
   }
 })
 
