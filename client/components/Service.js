@@ -1,30 +1,6 @@
 import React, { Component } from 'react'
-import Form from 'react-jsonschema-form'
+import ServiceForm from '../forms/service'
 
-const ServiceSchema = {
-  title: 'Service',
-  type: 'object',
-  required: ['url', 'host'],
-  properties: {
-    slug: { type: 'string', title: 'Slug' },
-    url: { type: 'string', title: 'Url' },
-    host: { type: 'string', title: 'Host' },
-    scheme: { type: 'string', title: 'Scheme', default: 'http' },
-    clients: {
-      title: 'Clients',
-      type: 'array',
-      items: {
-        type: 'string',
-        properties: {
-          description: {
-            name: 'string',
-            token: 'string'
-          }
-        }
-      }
-    }
-  }
-}
 
 class Service extends Component {
   constructor(props) {
@@ -56,22 +32,19 @@ class Service extends Component {
 
   render() {
     const { service, clients, addNew } = this.props
-    const uiSchema = {
-      slug: { 'ui:readonly': !addNew }
-    }
-    ServiceSchema.properties.clients.items.enum = clients.map(c => c.token)
-    ServiceSchema.properties.clients.items.enumNames = clients.map(c => c.name)
     return this.state.edit ? (
       <div>
-      <Form schema={ServiceSchema}
-        uiSchema={uiSchema}
+      <ServiceForm
         onSubmit={::this.save}
-        formData={service}/>
+        formData={service}
+        enum={clients.map(c => c.token)}
+        enumNames={clients.map(c => c.name)}
+        new={addNew}/>
       <button className="btn btn-info" onClick={::this.toogleEdit}>Cancel</button>
       { addNew ? (
-        <div></div>
-      ) : (
-        <button className="btn btn-danger" onClick={::this.delete}>Delete</button>
+          <div/>
+        ) : (
+          <button className="btn btn-danger" onClick={::this.delete}>Delete</button>
         )
       }
       </div>

@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-//import 'bootswatch/cyborg/bootstrap.min.css'
+import 'bootstrap/less/bootstrap.less'
+import 'bootswatch/darkly/bootstrap.min.css'
 
 import React from 'react'
 import { render } from 'react-dom'

@@ -3,7 +3,7 @@ import React from 'react'
 
 const IndexView = () => (
   <div>
-    <LoginBox />
+    Index
   </div>
 )
 

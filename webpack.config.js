@@ -1,18 +1,18 @@
+const webpack = require('webpack')
+const LessPluginCleanCSS = require('less-plugin-clean-css')
 
 module.exports = {
   module: {
     loaders: [{
       test: /\.css$/,
-      loaders: ['style', 'css']
-    },
-    {
-      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-    {
-      test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'file-loader'
-    },
-    {
+      loader: 'style!css'
+    }, {
+      test: /\.less?$/,
+      loader: 'style!css!less'
+    }, {
+      test: /\.(eot|woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/,
+      loader: 'url?limit=100000&name=[name].[ext]'
+    }, {
       test: /\.js$/,
       exclude: /node_modules/,
       loaders: ['babel']
@@ -28,5 +28,16 @@ module.exports = {
     filename: '[name].bundle.js',
     publicPath: '/js/',
   },
-  plugins: [],
+  lessLoader: {
+    lessPlugins: [
+      new LessPluginCleanCSS({ advanced: true })
+    ]
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
+    })
+  ],
 }

@@ -5,16 +5,16 @@ class ClientList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      addNew: false
+      newClient: false
     }
   }
 
-  addNew() {
-    this.setState({ addNew: true })
+  toggleNew() {
+    this.setState({ newClient: !this.state.newClient })
   }
 
   render() {
-    const { addNew } = this.state
+    const { newClient } = this.state
     const { clients, ...actions } = this.props
     return (
       <div>
@@ -25,17 +25,17 @@ class ClientList extends Component {
             {...actions }
           />
         )}
-        {addNew ? (
+        {newClient ? (
           <Client
             edit={true}
+            addNew={::this.toggleNew}
             {...actions }
           />
         ) : (
-          <button onClick={::this.addNew}>Create Client</button>
+          <button className="btn btn-info" onClick={::this.toggleNew}>Create Client</button>
         )}
       </div>
     )
   }
 }
-
 export default ClientList

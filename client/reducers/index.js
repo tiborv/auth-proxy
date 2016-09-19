@@ -2,6 +2,8 @@ import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
+import { reducer as form } from 'redux-form'
+
 import clients from './clients'
 import auth from './auth'
 import services from './services'
@@ -17,6 +19,7 @@ export default createStore(
     services,
     auth,
     clients,
+    form,
     routing: routerReducer
   }),
   applyMiddleware(...middlewares)

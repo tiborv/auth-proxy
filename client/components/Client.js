@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ClientForm from '../forms/client'
 
 class Client extends Component {
   constructor(props) {
@@ -9,22 +10,19 @@ class Client extends Component {
     this.inputName = {}
   }
 
-  save() {
+  save(form) {
     if (this.props.client) {
-      this.props.update({
-        name: this.inputName.value.trim(),
-        token: this.props.client.token
-      })
+      this.props.update(form.formData)
       this.setState({ edit: false })
-    } else {
-      this.props.create({
-        name: this.inputName.value.trim(),
-      })
+      return
     }
+    this.props.create(form.formData)
+    this.props.addNew()
   }
 
-  edit() {
-    this.setState({ edit: true })
+  toggleEdit() {
+    this.setState({ edit: !this.state.edit })
+    if (this.props.addNew) this.props.addNew()
   }
 
   delete() {
@@ -32,19 +30,26 @@ class Client extends Component {
     this.props.del(this.props.client)
   }
 
+
   render() {
     const { edit } = this.state
-    const { client } = this.props
+    const { client, addNew } = this.props
     return edit ? (
-        <div>
-        <input ref={node => this.inputName = node}></input>
-        <button onClick={::this.save}> Save </button>
-        <button onClick={::this.delete}> Delete </button>
-        </div>
+      <div>
+        <ClientForm
+          formData={client}
+          client={client}
+          onSubmit={::this.save}
+          new={addNew}/>
+        <button className="btn btn-info" onClick={::this.toggleEdit}>Cancel</button>
+      { addNew ? (<div/>) : (
+        <button className="btn btn-danger" onClick={::this.delete}> Delete </button>
+      )}
+      </div>
       ) : (
         <div>
         Client {client.name}
-        <button onClick={::this.edit}> Edit </button>
+        <button className="btn btn-info" onClick={::this.toggleEdit}> Edit </button>
         </div>
     )
   }
