@@ -1,1 +1,1 @@
-web: prxy
+web: auth-proxy

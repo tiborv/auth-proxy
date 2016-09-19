@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/tiborv/prxy/models"
-	"github.com/tiborv/prxy/routes"
+	"github.com/tiborv/auth-proxy/models"
+	"github.com/tiborv/auth-proxy/routes"
 )
 
 func main() {

@@ -6,7 +6,7 @@ import (
 	"net/http/httputil"
 	"strings"
 
-	"github.com/tiborv/prxy/models"
+	"github.com/tiborv/auth-proxy/models"
 )
 
 const (
@@ -33,8 +33,8 @@ func proxy(w http.ResponseWriter, r *http.Request) {
 	service, serviceNotFound := models.FindServiceBySlug(slug)
 	authorized, tokenNotFound := models.ServiceHasToken(service.Slug, token)
 	if !authorized || tokenNotFound != nil || serviceNotFound != nil {
-		w.WriteHeader(http.StatusForbidden)
-		fmt.Fprint(w, "Not authorized")
+		fmt.Println(authorized, tokenNotFound, serviceNotFound)
+		HttpResponse{Status: http.StatusForbidden, Msg: "Not authorized"}.Send(w)
 		return
 	}
 

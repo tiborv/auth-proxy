@@ -18,6 +18,7 @@ class ServiceList extends Component {
     const { services, ...props } = this.props
     return (
       <div>
+        <div className="list-group">
         {services.map((service, i) =>
           <Service
             key={i}
@@ -25,6 +26,8 @@ class ServiceList extends Component {
             {...props }
           />
         )}
+      </div>
+
       {newService ? (
         <Service
           edit={true}

@@ -20,12 +20,13 @@ class Service extends Component {
     this.props.addNew()
   }
 
-  toogleEdit() {
+  toggleEdit() {
     this.setState({ edit: !this.state.edit })
     if (this.props.addNew) this.props.addNew()
   }
 
-  delete() {
+  delete(e) {
+    e.preventDefault()
     this.props.del(this.props.service)
     this.setState({ edit: false })
   }
@@ -33,26 +34,29 @@ class Service extends Component {
   render() {
     const { service, clients, addNew } = this.props
     return this.state.edit ? (
-      <div>
       <ServiceForm
         onSubmit={::this.save}
         formData={service}
         enum={clients.map(c => c.token)}
         enumNames={clients.map(c => c.name)}
-        new={addNew}/>
-      <button className="btn btn-info" onClick={::this.toogleEdit}>Cancel</button>
-      { addNew ? (
-          <div/>
-        ) : (
-          <button className="btn btn-danger" onClick={::this.delete}>Delete</button>
-        )
-      }
-      </div>
+        new={addNew}>
+
+        <div className="btn-group" role="group">
+          <button type="submit" className="btn btn-info">Save</button>
+          <button className="btn btn-info">Cancel</button>
+
+          { addNew ? (
+              <div/>
+            ) : (
+              <button className="btn btn-danger" onClick={::this.delete}>Delete</button>
+            )
+          }
+        </div>
+      </ServiceForm>
     ) : (
-      <div>
-      Service {service.slug}
-      <button className="btn btn-info" onClick={::this.toogleEdit}> Edit </button>
-      </div>
+      <button type="button" className="list-group-item" onClick={::this.toggleEdit}>
+        {service.slug}
+      </button>
     )
   }
 }

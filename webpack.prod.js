@@ -1,12 +1,19 @@
 const config = require('./webpack.config')
 const webpack = require('webpack')
+const Purify = require('purifycss-webpack-plugin')
 
-config.plugins = []
-config.plugins.push(new webpack.DefinePlugin({
+config.plugins[0] = new webpack.DefinePlugin({
   'process.env': {
     NODE_ENV: JSON.stringify('production')
   }
+})
+config.plugins.push(new webpack.optimize.DedupePlugin())
+config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+  minimize: true,
+  compressor: { warnings: false }
 }))
-config.plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }))
+config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
+config.plugins.push(new webpack.DefinePlugin({ __DEV__: false }))
+config.plugins.push(new Purify({ basePath: __dirname }))
 config.devtool = ''
 module.exports = config

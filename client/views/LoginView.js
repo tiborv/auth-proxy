@@ -1,5 +1,3 @@
-import 'font-awesome/less/font-awesome.less'
-import 'bootstrap-social/bootstrap-social.css'
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
@@ -7,9 +5,9 @@ import { Link } from 'react-router'
 const style = {
   display: '-webkit-flex',
   height: '100%',
-  '-webkit-align-items': 'center',
-  '-webkit-box-align': 'center',
-  'align-items': 'center',
+  WebkitAlignItems: 'center',
+  WebkitBoxAlign: 'center',
+  alignItems: 'center',
 }
 
 const LoginView = ({ dispatch }) => (

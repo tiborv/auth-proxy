@@ -1,5 +1,7 @@
-import 'bootstrap/less/bootstrap.less'
-import 'bootswatch/darkly/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootswatch/darkly/bootstrap.css'
+import 'font-awesome/css/font-awesome.css'
+import 'bootstrap-social/bootstrap-social.css'
 
 import React from 'react'
 import { render } from 'react-dom'

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/tiborv/prxy/models"
+	"github.com/tiborv/auth-proxy/models"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/github"
@@ -30,7 +30,7 @@ var config = &oauth2.Config{
 	ClientSecret: "d5ab38f3211bb36f21113bebc4e10dee5bb12439",
 	Scopes:       []string{"read:org"},
 	Endpoint:     github.Endpoint,
-	RedirectURL:  "http://localhost:3000/api/oauth/callback",
+	RedirectURL:  "https://rocky-reef-55650.herokuapp.com/api/oauth/callback",
 }
 
 func init() {
@@ -57,8 +57,10 @@ func callback(w http.ResponseWriter, r *http.Request) {
 		s.Authenticate()
 		bindSessionToCookie(w, r, s)
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-
+		return
 	}
+
+	HttpResponse{Status: http.StatusBadRequest, Msg: "Could not authenticate"}.Send(w)
 }
 
 func UserInGitHubOrgs(tok *oauth2.Token, orgIDs ...int) bool {

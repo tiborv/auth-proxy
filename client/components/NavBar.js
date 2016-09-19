@@ -11,7 +11,7 @@ const NavBar = ({ locationBeforeTransitions }) => {
   )
   return (
     <ul className="nav nav-tabs">
-    {path('Index', '/')}
+    {path('How', '/')}
     {path('Services', '/services')}
     {path('Clients', '/clients')}
     </ul>

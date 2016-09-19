@@ -25,7 +25,8 @@ class Client extends Component {
     if (this.props.addNew) this.props.addNew()
   }
 
-  delete() {
+  delete(e) {
+    e.preventDefault()
     this.setState({ edit: false })
     this.props.del(this.props.client)
   }
@@ -35,22 +36,24 @@ class Client extends Component {
     const { edit } = this.state
     const { client, addNew } = this.props
     return edit ? (
-      <div>
-        <ClientForm
-          formData={client}
-          client={client}
-          onSubmit={::this.save}
-          new={addNew}/>
-        <button className="btn btn-info" onClick={::this.toggleEdit}>Cancel</button>
-      { addNew ? (<div/>) : (
-        <button className="btn btn-danger" onClick={::this.delete}> Delete </button>
-      )}
-      </div>
-      ) : (
-        <div>
-        Client {client.name}
-        <button className="btn btn-info" onClick={::this.toggleEdit}> Edit </button>
+      <ClientForm
+        formData={client}
+        client={client}
+        onSubmit={::this.save}
+        new={addNew}>
+
+        <div className="btn-group" role="group">
+          <button type="submit" className="btn btn-info">Submit</button>
+          <button className="btn btn-info">Cancel</button>
+          { addNew ? (<div/>) : (
+            <button className="btn btn-danger" onClick={::this.delete}> Delete </button>
+          )}
         </div>
+      </ClientForm>
+    ) : (
+      <button type="button" className="list-group-item" onClick={::this.toggleEdit}>
+        {client.name}
+      </button>
     )
   }
 }

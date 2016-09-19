@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiborv/prxy/models"
+	"github.com/tiborv/auth-proxy/models"
 )
 
 const servicePath = "/api/service"

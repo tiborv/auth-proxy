@@ -8,7 +8,12 @@ const ServiceSchema = {
     slug: { type: 'string', title: 'Slug' },
     url: { type: 'string', title: 'Url' },
     host: { type: 'string', title: 'Host' },
-    scheme: { type: 'string', title: 'Scheme', default: 'http' },
+    scheme: {
+      type: 'string',
+      title: 'Scheme',
+      default: 'http',
+      enum: ['http', 'https'],
+    },
     clients: {
       title: 'Clients',
       type: 'array',

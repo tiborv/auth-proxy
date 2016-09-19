@@ -18,6 +18,7 @@ class ClientList extends Component {
     const { clients, ...actions } = this.props
     return (
       <div>
+      <div className="list-group">
         {clients.map((client, i) =>
           <Client
             key={i}
@@ -25,15 +26,17 @@ class ClientList extends Component {
             {...actions }
           />
         )}
-        {newClient ? (
-          <Client
-            edit={true}
-            addNew={::this.toggleNew}
-            {...actions }
-          />
-        ) : (
-          <button className="btn btn-info" onClick={::this.toggleNew}>Create Client</button>
-        )}
+      </div>
+
+      {newClient ? (
+        <Client
+          edit={true}
+          addNew={::this.toggleNew}
+          {...actions }
+        />
+      ) : (
+        <button className="btn btn-info" onClick={::this.toggleNew}>Create Client</button>
+      )}
       </div>
     )
   }

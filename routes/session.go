@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/tiborv/prxy/models"
+	"github.com/tiborv/auth-proxy/models"
 )
 
 type contextKeys int

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/tiborv/prxy/models"
+	"github.com/tiborv/auth-proxy/models"
 )
 
 func RequireAuth(h http.HandlerFunc) http.Handler {
