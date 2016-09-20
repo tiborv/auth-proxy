@@ -1,11 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import IndexView from './Index'
+import How from './How'
 import LoginView from './LoginView'
-
 import NavBar from '../components/NavBar'
-
 
 const mapStateToProps = (state, ownProps) => ({
   auth: state.auth,
@@ -17,7 +15,7 @@ const Root = ({ children, auth, location }) => (
   { auth ? (
     <div>
     <NavBar {...location}/>
-    { children || (<IndexView />) }
+    { children || (<How />) }
     </div>
   ) : (
     <LoginView />

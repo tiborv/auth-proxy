@@ -1,6 +1,7 @@
 import React from 'react'
 import { Router, Route, browserHistory, Redirect } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
+
 import Root from './Root'
 import ClientView from './Clients'
 import ServiceView from './Services'

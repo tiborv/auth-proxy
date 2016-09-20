@@ -1,6 +1,7 @@
 const config = require('./webpack.config')
 const webpack = require('webpack')
 const Purify = require('purifycss-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 config.plugins[0] = new webpack.DefinePlugin({
   'process.env': {
@@ -10,10 +11,16 @@ config.plugins[0] = new webpack.DefinePlugin({
 config.plugins.push(new webpack.optimize.DedupePlugin())
 config.plugins.push(new webpack.optimize.UglifyJsPlugin({
   minimize: true,
-  compressor: { warnings: false }
+  compressor: { warnings: false },
+  output: { comments: false }
 }))
 config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
 config.plugins.push(new webpack.DefinePlugin({ __DEV__: false }))
 config.plugins.push(new Purify({ basePath: __dirname }))
+config.plugins.push(new OptimizeCssAssetsPlugin({
+  cssProcessorOptions: { discardComments: { removeAll: true } },
+  canPrint: true
+}))
+
 config.devtool = ''
 module.exports = config

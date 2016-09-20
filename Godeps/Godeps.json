@@ -5,15 +5,15 @@
 	"Deps": [
 		{
 			"ImportPath": "golang.org/x/crypto/bcrypt",
-			"Rev": "05d11b2ca14108dfc7f74f4f66b28c7fe92e1fd0"
+			"Rev": "beef0f4390813b96e8e68fd78570396d0f4751fc"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/blowfish",
-			"Rev": "05d11b2ca14108dfc7f74f4f66b28c7fe92e1fd0"
+			"Rev": "beef0f4390813b96e8e68fd78570396d0f4751fc"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "9313baa13d9262e49d07b20ed57dceafcd7240cc"
+			"Rev": "3f122ce3dbbe488b7e6a8bdb26f41edec852a40b"
 		},
 		{
 			"ImportPath": "golang.org/x/oauth2",
@@ -29,7 +29,27 @@
 		},
 		{
 			"ImportPath": "gopkg.in/bsm/ratelimit.v1",
-			"Rev": "db14e161995a5177acef654cb0dd785e8ee8bc22"
+			"Rev": "f14ad9c78b155f69b480cfa41cb655259baac260"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2",
+			"Comment": "r2015.10.05-1-g4d04138",
+			"Rev": "4d04138ffef2791c479c0c8bbffc30b34081b8d9"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/bson",
+			"Comment": "r2015.10.05-1-g4d04138",
+			"Rev": "4d04138ffef2791c479c0c8bbffc30b34081b8d9"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/sasl",
+			"Comment": "r2015.10.05-1-g4d04138",
+			"Rev": "4d04138ffef2791c479c0c8bbffc30b34081b8d9"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2/internal/scram",
+			"Comment": "r2015.10.05-1-g4d04138",
+			"Rev": "4d04138ffef2791c479c0c8bbffc30b34081b8d9"
 		},
 		{
 			"ImportPath": "gopkg.in/redis.v4",

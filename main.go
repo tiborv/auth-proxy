@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	models.Connect()
+	models.Connect(false)
 
 	s := &http.Server{
 		Addr:           ":" + os.Getenv("PORT"),

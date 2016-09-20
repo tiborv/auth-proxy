@@ -11,7 +11,7 @@ import (
 
 const (
 	proxyPath  = "/api/proxy/"
-	headerName = "Auth-Token"
+	headerName = "Authorization"
 )
 
 func init() {
@@ -23,8 +23,10 @@ func StripPrefix(req *http.Request) {
 }
 
 func GetPathSlugToken(req *http.Request) (string, string, string) {
+	tokenSplit := strings.Split(req.Header.Get(headerName), " ")
+	fmt.Println(tokenSplit[len(tokenSplit)-1])
 	urlSplit := strings.Split(req.URL.Path, "/")
-	return urlSplit[0], "/" + strings.Join(urlSplit[1:], "/"), req.Header.Get(headerName)
+	return urlSplit[0], "/" + strings.Join(urlSplit[1:], "/"), tokenSplit[1]
 }
 
 func proxy(w http.ResponseWriter, r *http.Request) {

@@ -105,3 +105,8 @@ func GetUrlOfService(slug string) (string, error) {
 func ServiceHasToken(serviceSlug, token string) (bool, error) {
 	return redisClient.SIsMember(tokenPrefix+serviceSlug, token).Result()
 }
+
+func (s Service) RemoveToken(token string) (bool, error) {
+	removed, err := redisClient.SRem(tokenPrefix+s.Slug, token).Result()
+	return removed > 0, err
+}

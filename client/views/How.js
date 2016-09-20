@@ -1,7 +1,6 @@
 import React from 'react'
 
-
-const IndexView = () => (
+const HowView = () => (
   <div className="page-header">
     <h1>
       Step 1.
@@ -14,8 +13,8 @@ const IndexView = () => (
     <h1>
       Step 3.
     </h1>
-    <small>Execute HTTP POST/GET towrads /api/porxy/{'<service-slug>'} and set header 'Auth-Token' to the client token</small>
+    <small>Execute a HTTP POST/GET/WHATEVER towards /api/proxy/{'<service-slug>'} and set header 'Authorization: Bearer {'<client-token>'}'</small>
   </div>
 )
 
-export default IndexView
+export default HowView

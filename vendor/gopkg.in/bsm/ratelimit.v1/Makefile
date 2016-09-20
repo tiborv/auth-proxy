@@ -11,6 +11,3 @@ testrace: testdeps
 	@go test ./... -race
 
 testall: test testrace
-
-bench:
-	@go test ./... -run=NONE -bench=.

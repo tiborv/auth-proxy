@@ -5,7 +5,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style', 'css?minimize')
+      loader: ExtractTextPlugin.extract('style', 'css?-minimize!')
     }, {
       test: /\.png|\.jpe?g|\.gif|\.svg|\.woff|\.woff2|\.ttf|\.eot|\.ico|\.svg$/,
       loader: 'file?name=fonts/[name].[hash].[ext]?'
@@ -42,6 +42,6 @@ module.exports = {
         NODE_ENV: JSON.stringify('development')
       }
     }),
-    new ExtractTextPlugin('styles.css')
+    new ExtractTextPlugin('style.min.css')
   ],
 }
