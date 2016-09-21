@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"net/http/httputil"
 	"strings"
@@ -24,7 +23,6 @@ func StripPrefix(req *http.Request) {
 
 func GetPathSlugToken(req *http.Request) (string, string, string) {
 	tokenSplit := strings.Split(req.Header.Get(headerName), " ")
-	fmt.Println(tokenSplit[len(tokenSplit)-1])
 	urlSplit := strings.Split(req.URL.Path, "/")
 	return urlSplit[0], "/" + strings.Join(urlSplit[1:], "/"), tokenSplit[1]
 }
@@ -35,7 +33,6 @@ func proxy(w http.ResponseWriter, r *http.Request) {
 	service, serviceNotFound := models.FindServiceBySlug(slug)
 	authorized, tokenNotFound := models.ServiceHasToken(service.Slug, token)
 	if !authorized || tokenNotFound != nil || serviceNotFound != nil {
-		fmt.Println(authorized, tokenNotFound, serviceNotFound)
 		HttpResponse{Status: http.StatusForbidden, Msg: "Not authorized"}.Send(w)
 		return
 	}

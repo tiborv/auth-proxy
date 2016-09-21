@@ -31,6 +31,5 @@ func StaticFileMiddleware(h http.Handler) http.Handler {
 		default:
 			http.ServeFile(w, r, "./static/index.html")
 		}
-
 	})
 }

@@ -24,9 +24,9 @@ export const UPDATE_SUCESS = 'SERVICE.UPDATE_SUCESS'
 export const update = (service) => (dispatch) => {
   api
     .update(service)
-    .then(() => dispatch({
+    .then(updatedService => dispatch({
       type: UPDATE_SUCESS,
-      service
+      updatedService
     }))
 }
 

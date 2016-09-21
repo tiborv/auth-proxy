@@ -57,13 +57,13 @@ func updateService(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, saveErr := service.Save()
+	savedService, saveErr := service.Save()
 	if saveErr != nil {
 		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not updated"}.Send(w)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(service)
+	json.NewEncoder(w).Encode(savedService)
 }
 
 func deleteService(w http.ResponseWriter, r *http.Request) {

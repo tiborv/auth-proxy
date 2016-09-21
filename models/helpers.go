@@ -4,6 +4,8 @@ import (
 	crypto "crypto/rand"
 	"encoding/base64"
 	"math/rand"
+	"regexp"
+	"strings"
 )
 
 func stringInSlice(a string, list []string) bool {
@@ -29,4 +31,10 @@ func randomString(n int) string {
 		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
 	}
 	return string(b)
+}
+
+var re = regexp.MustCompile("[^a-z0-9]+")
+
+func slugify(s string) string {
+	return strings.Trim(re.ReplaceAllString(strings.ToLower(s), "-"), "-")
 }

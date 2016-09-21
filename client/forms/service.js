@@ -40,7 +40,7 @@ class ServiceForm extends Component {
       slug: { 'ui:readonly': !this.props.new }
     }
     return (
-      <Form schema={ServiceSchema} {...this.props} />
+      <Form schema={ServiceSchema} uiSchema={uiSchema} {...this.props} />
     )
   }
 }

@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -26,8 +27,8 @@ const (
 )
 
 var config = &oauth2.Config{
-	ClientID:     "d8b2829c1f6f3e67317a",
-	ClientSecret: "d5ab38f3211bb36f21113bebc4e10dee5bb12439",
+	ClientID:     "53b0a3a9f041ae7e71d6",
+	ClientSecret: "23c65717d9f5295c414be2828c2e8ed93c599e7f",
 	Scopes:       []string{"read:org"},
 	Endpoint:     github.Endpoint,
 	RedirectURL:  "https://rocky-reef-55650.herokuapp.com/api/oauth/callback",
@@ -59,7 +60,8 @@ func callback(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
-
+	fmt.Println("User in GITHUB ORG: ", UserInGitHubOrgs(tok, dbmedialabOrgID, soldontnoOrgID))
+	fmt.Println("Valid Token: ", tok.Valid())
 	HttpResponse{Status: http.StatusBadRequest, Msg: "Could not authenticate"}.Send(w)
 }
 

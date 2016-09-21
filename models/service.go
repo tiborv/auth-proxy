@@ -35,10 +35,13 @@ func (s Service) Save() (Service, error) {
 	if s.Scheme == "" {
 		s.Scheme = "http"
 	}
+	s.Slug = slugify(s.Slug)
 	redisClient.Del(tokenPrefix + s.Slug).Result()
 	for _, c := range s.Clients {
 		redisClient.SAdd(tokenPrefix+s.Slug, c)
 	}
+	clients, _ := redisClient.SMembers(tokenPrefix + s.Slug).Result()
+	s.Clients = clients
 	redisClient.Set(servicePrefix+s.Slug, jsonService, 0)
 	return s, nil
 }
@@ -106,7 +109,21 @@ func ServiceHasToken(serviceSlug, token string) (bool, error) {
 	return redisClient.SIsMember(tokenPrefix+serviceSlug, token).Result()
 }
 
-func (s Service) RemoveToken(token string) (bool, error) {
-	removed, err := redisClient.SRem(tokenPrefix+s.Slug, token).Result()
-	return removed > 0, err
+func (s *Service) RemoveClient(token string) (bool, error) {
+	tokenIndex := 0
+	found := false
+	for i, t := range s.Clients {
+		if token == t {
+			tokenIndex = i
+			found = true
+			break
+		}
+	}
+	if found {
+		s.Clients[tokenIndex] = s.Clients[len(s.Clients)-1]
+		s.Clients = s.Clients[:len(s.Clients)-1]
+		removed, err := redisClient.SRem(tokenPrefix+s.Slug, token).Result()
+		return found && removed > 0, err
+	}
+	return false, nil
 }

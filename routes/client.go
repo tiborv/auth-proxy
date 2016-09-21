@@ -66,6 +66,11 @@ func deleteClient(w http.ResponseWriter, r *http.Request) {
 		HttpResponse{Status: http.StatusBadRequest, Msg: "Client not deleted"}.Send(w)
 		return
 	}
+	services, _ := models.FindAllServices()
+	for _, s := range services {
+		s.RemoveClient(client.Token)
+	}
+
 	deleted := client.Delete()
 	if deleted {
 		HttpResponse{Status: http.StatusOK, Msg: "Client deleted"}.Send(w)
