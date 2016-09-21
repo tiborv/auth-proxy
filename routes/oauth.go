@@ -31,7 +31,7 @@ var config = &oauth2.Config{
 	ClientSecret: "23c65717d9f5295c414be2828c2e8ed93c599e7f",
 	Scopes:       []string{"read:org"},
 	Endpoint:     github.Endpoint,
-	RedirectURL:  "https://rocky-reef-55650.herokuapp.com/api/oauth/callback",
+	RedirectURL:  "https://auth-proxy.herokuapp.com/api/oauth/callback",
 }
 
 func init() {

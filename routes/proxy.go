@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"strings"
+	"time"
 
 	"github.com/tiborv/auth-proxy/models"
 )
@@ -37,6 +38,9 @@ func proxy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	reqTime := time.Now()
+	defer models.LogRequest(token, slug, reqTime, r.Header)
+
 	r.Host = service.Host
 	director := func(req *http.Request) {
 		req = r
@@ -47,4 +51,6 @@ func proxy(w http.ResponseWriter, r *http.Request) {
 	}
 	proxy := &httputil.ReverseProxy{Director: director}
 	proxy.ServeHTTP(w, r)
+
+	models.LogResponse(token, slug, time.Now().Sub(reqTime), w)
 }

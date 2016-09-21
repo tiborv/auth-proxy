@@ -3,17 +3,20 @@ package models
 import (
 	"log"
 	"os"
+	"time"
 
 	mongo "gopkg.in/mgo.v2"
 	redis "gopkg.in/redis.v4"
 )
 
 var redisClient *redis.Client
-var mongoClient *mongo.Database
 
-const mongoDBName = "authProxy"
+const mongoDBName = "auth-proxy"
+
+var mongoStatsEnabled bool
 
 func Connect(mongoStats bool) {
+	mongoStatsEnabled = mongoStats
 
 	redisUrl := os.Getenv("REDIS_URL")
 	redisPass := os.Getenv("REDIS_PASS")
@@ -27,18 +30,30 @@ func Connect(mongoStats bool) {
 		DB:       0,         // use default DB
 	})
 
-	if mongoStats {
-		mongoURL := os.Getenv("MONGO_URI")
+	if mongoStatsEnabled {
+		mongoURL := os.Getenv("MONGODB_URI")
 
 		if mongoURL == "" {
-			mongoURL = "localhost:27017"
+			mongoURL = "localhost:2701"
 		}
 		session, err := mongo.Dial(mongoURL)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("MONGO ERR", err)
 		}
 		session.SetMode(mongo.Monotonic, true)
-		mongoClient = session.DB(mongoDBName)
-	}
+		db := session.DB(mongoDBName)
+		requestCollection = db.C("request")
+		responseCollection = db.C("response")
 
+		expirationIndex := mongo.Index{
+			ExpireAfter: time.Duration(60*60) * time.Second,
+			Unique:      true,
+			DropDups:    true,
+			Background:  true,
+			Sparse:      true,
+		}
+
+		requestCollection.EnsureIndex(expirationIndex)
+		responseCollection.EnsureIndex(expirationIndex)
+	}
 }
