@@ -39,7 +39,7 @@ func proxy(w http.ResponseWriter, r *http.Request) {
 	}
 
 	reqTime := time.Now()
-	defer models.LogRequest(token, slug, reqTime, r.Header)
+	models.LogRequest(token, slug, reqTime, r.Header)
 
 	r.Host = service.Host
 	director := func(req *http.Request) {

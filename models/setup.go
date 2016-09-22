@@ -31,12 +31,14 @@ func Connect(mongoStats bool) {
 	})
 
 	if mongoStatsEnabled {
-		mongoURL := os.Getenv("MONGODB_URI")
+		mongoDBURI := os.Getenv("MONGO_URI")
 
-		if mongoURL == "" {
-			mongoURL = "localhost:2701"
+		if mongoDBURI == "" {
+			mongoDBURI = "localhost:27017"
 		}
-		session, err := mongo.Dial(mongoURL)
+
+		log.Println("Connecting mongodb: ", mongoDBURI)
+		session, err := mongo.Dial(mongoDBURI)
 		if err != nil {
 			log.Fatal("MONGO ERR", err)
 		}

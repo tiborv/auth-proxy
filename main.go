@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,10 +12,16 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "3000"
+	}
 	models.Connect(true)
 
+	fmt.Println(port)
 	s := &http.Server{
-		Addr:           ":" + os.Getenv("PORT"),
+		Addr:           ":" + port,
 		Handler:        routes.GetRootMux(),
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
