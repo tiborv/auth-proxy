@@ -69,3 +69,41 @@ func LogResponse(t, s string, duration time.Duration, w http.ResponseWriter) {
 		}.Save()
 	}()
 }
+
+type ResponseStats struct {
+	Avg   float64 `json:"avg"`
+	Count int     `json:"count"`
+}
+
+func (s *Service) GetResponseStats() (ResponseStats, error) {
+	result := ResponseStats{}
+	pipe := responseCollection.Pipe([]bson.M{
+		{"$match": bson.M{"service": s.Slug}},
+		{"$group": bson.M{
+			"_id":   "null",
+			"avg":   bson.M{"$avg": "$duration"},
+			"count": bson.M{"$sum": 1},
+		}},
+	})
+	err := pipe.One(&result)
+	s.Stats = result
+	return result, err
+}
+
+type RequestStats struct {
+	Count int `json:"count"`
+}
+
+func (c *Client) GetRequestStats() (RequestStats, error) {
+	result := RequestStats{}
+	pipe := requestCollection.Pipe([]bson.M{
+		{"$match": bson.M{"token": c.Token}},
+		{"$group": bson.M{
+			"_id":   "null",
+			"count": bson.M{"$sum": 1},
+		}},
+	})
+	err := pipe.One(&result)
+	c.Stats = result
+	return result, err
+}

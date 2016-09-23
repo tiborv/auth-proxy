@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/tiborv/auth-proxy/models"
@@ -83,5 +84,5 @@ func UserInGitHubOrgs(tok *oauth2.Token, orgIDs ...int) bool {
 
 func check(w http.ResponseWriter, r *http.Request) {
 	session := r.Context().Value(SessionCtxKey).(models.Session)
-	HttpResponse{Status: http.StatusOK, Msg: strconv.FormatBool(session.Auth)}.Send(w)
+	HttpResponse{Status: http.StatusOK, Msg: strconv.FormatBool(session.Auth || os.Getenv("DEVELOPMENT") == "true")}.Send(w)
 }

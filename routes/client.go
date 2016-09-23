@@ -20,7 +20,7 @@ func init() {
 
 func listClient(w http.ResponseWriter, r *http.Request) {
 	clients, _ := models.FindAllClients()
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(clients)
 }
 
@@ -77,4 +77,15 @@ func deleteClient(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	HttpResponse{Status: http.StatusBadRequest, Msg: "Client not deleted"}.Send(w)
+}
+
+func clientStats(w http.ResponseWriter, r *http.Request) {
+	client, jsonErr := models.ClientJson(r.Body)
+	if jsonErr != nil {
+		fmt.Println("Client stats json err:", jsonErr)
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not deleted, malformed json"}.Send(w)
+		return
+	}
+	stats := client.Stats
+	json.NewEncoder(w).Encode(stats)
 }

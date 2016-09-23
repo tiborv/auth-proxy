@@ -15,6 +15,8 @@ func init() {
 	mux.Handle(servicePath+"/update", RequireAuth(updateService))
 	mux.Handle(servicePath+"/delete", RequireAuth(deleteService))
 	mux.Handle(servicePath+"/create", RequireAuth(createService))
+	mux.Handle(servicePath+"/stats", RequireAuth(serviceStats))
+
 }
 
 func listService(w http.ResponseWriter, r *http.Request) {
@@ -79,4 +81,15 @@ func deleteService(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	HttpResponse{Status: http.StatusOK, Msg: "Service deleted"}.Send(w)
+}
+
+func serviceStats(w http.ResponseWriter, r *http.Request) {
+	service, jsonErr := models.ServiceJson(r.Body)
+	if jsonErr != nil {
+		fmt.Println("Service stats json err:", jsonErr)
+		HttpResponse{Status: http.StatusBadRequest, Msg: "Service not deleted, malformed json"}.Send(w)
+		return
+	}
+	stats := service.Stats
+	json.NewEncoder(w).Encode(stats)
 }

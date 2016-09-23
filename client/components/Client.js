@@ -53,6 +53,9 @@ class Client extends Component {
     ) : (
       <button type="button" className="list-group-item" onClick={::this.toggleEdit}>
         {client.name}
+      <span className="pull-right">
+        {client.stats.count}
+      </span>
       </button>
     )
   }

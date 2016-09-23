@@ -7,11 +7,12 @@ import (
 )
 
 type Service struct {
-	Url     string   `json:"url"`
-	Host    string   `json:"host"`
-	Scheme  string   `json:"scheme"`
-	Slug    string   `json:"slug"`
-	Clients []string `json:"clients"`
+	Url     string        `json:"url"`
+	Host    string        `json:"host"`
+	Scheme  string        `json:"scheme"`
+	Slug    string        `json:"slug"`
+	Clients []string      `json:"clients"`
+	Stats   ResponseStats `json:"stats"`
 }
 
 const (
@@ -54,6 +55,7 @@ func FindServiceBySlug(slug string) (Service, error) {
 	jsonService, err := redisClient.Get(servicePrefix + slug).Result()
 	service := Service{}
 	json.Unmarshal([]byte(jsonService), &service)
+	service.GetResponseStats()
 	clients, _ := redisClient.SMembers(tokenPrefix + slug).Result()
 	service.Clients = clients
 	return service, err

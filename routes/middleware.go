@@ -2,6 +2,7 @@ package routes
 
 import (
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/tiborv/auth-proxy/models"
@@ -10,7 +11,7 @@ import (
 func RequireAuth(h http.HandlerFunc) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		session := r.Context().Value(SessionCtxKey).(models.Session)
-		if session.Auth {
+		if session.Auth || os.Getenv("DEVELOPMENT") == "true" {
 			h(w, r)
 			return
 		}

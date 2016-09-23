@@ -19,7 +19,7 @@ class ClientList extends Component {
     return (
       <div>
       <div className="list-group">
-        {clients.map((client, i) =>
+        {clients.sort((a, b) => b.stats.count - a.stats.count).map((client, i) =>
           <Client
             key={i}
             client={client}

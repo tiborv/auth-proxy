@@ -19,7 +19,7 @@ class ServiceList extends Component {
     return (
       <div>
         <div className="list-group">
-        {services.map((service, i) =>
+        {services.sort((a, b) => b.stats.count - a.stats.count).map((service, i) =>
           <Service
             key={i}
             service={service}

@@ -5,6 +5,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import Root from './Root'
 import ClientView from './Clients'
 import ServiceView from './Services'
+import StatsView from './Stats'
 
 import { authorize } from '../actions/auth'
 import { list as listClients } from '../actions/client'
@@ -17,6 +18,7 @@ export default ({ store }) => {
       <Route path="/" component={Root} onEnter={() => authorize(store)}>
         <Route path="/clients" component={ClientView} onEnter={() => listClients(store)}/>
         <Route path="/services" component={ServiceView} onEnter={() => {listServices(store); listClients(store)}}/>
+        <Route path="/stats" component={StatsView} onEnter={() => {listServices(store); listClients(store)}}/>
     </Route>
   </Router>
 )}

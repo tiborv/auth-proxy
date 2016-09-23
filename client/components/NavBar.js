@@ -14,6 +14,7 @@ const NavBar = ({ locationBeforeTransitions }) => {
     {path('How', '/')}
     {path('Services', '/services')}
     {path('Clients', '/clients')}
+    {path('Stats', '/stats')}
     </ul>
   )
 }

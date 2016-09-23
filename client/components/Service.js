@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ServiceForm from '../forms/service'
 
+const round = num => Math.round(num * 100) / 100
 
 class Service extends Component {
   constructor(props) {
@@ -56,6 +57,10 @@ class Service extends Component {
     ) : (
       <button type="button" className="list-group-item" onClick={::this.toggleEdit}>
         {service.slug}
+
+        <span className="pull-right">
+          {service.stats.count} | {round(service.stats.avg / 1000000)} ms
+        </span>
       </button>
     )
   }

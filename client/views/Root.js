@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import How from './How'
-import LoginView from './LoginView'
+import Login from './Login'
 import NavBar from '../components/NavBar'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -18,11 +18,10 @@ const Root = ({ children, auth, location }) => (
     { children || (<How />) }
     </div>
   ) : (
-    <LoginView />
+    <Login />
   )}
   </div>
 )
-
 
 export default connect(
   mapStateToProps,

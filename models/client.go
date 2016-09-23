@@ -8,8 +8,9 @@ import (
 )
 
 type Client struct {
-	Name  string `json:"name"`
-	Token string `json:"token"`
+	Name  string       `json:"name"`
+	Token string       `json:"token"`
+	Stats RequestStats `json:"stats"`
 }
 
 const (
@@ -26,6 +27,7 @@ func FindClient(id string) (Client, error) {
 	jsonClient, err := redisClient.Get(id).Result()
 	client := Client{}
 	json.Unmarshal([]byte(jsonClient), &client)
+	client.GetRequestStats()
 	return client, err
 }
 
