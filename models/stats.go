@@ -2,7 +2,6 @@ package models
 
 import (
 	"bytes"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -32,15 +31,11 @@ type Response struct {
 func (r Request) Save() {
 	r.ID = bson.NewObjectId()
 	requestCollection.Insert(r)
-	a := responseCollection.Insert(r)
-	fmt.Println("MONGO REPONSE", a)
-
 }
 
 func (r Response) Save() {
 	r.ID = bson.NewObjectId()
-	a := responseCollection.Insert(r)
-	fmt.Println("MONGO REPONSE", a)
+	responseCollection.Insert(r)
 }
 
 func LogRequest(t, s string, ts time.Time, h http.Header) {
@@ -60,15 +55,17 @@ func LogRequest(t, s string, ts time.Time, h http.Header) {
 }
 
 func LogResponse(t, s string, duration time.Duration, w http.ResponseWriter) {
-	if !mongoStatsEnabled {
-		return
-	}
-	buff := bytes.Buffer{}
-	w.Header().Write(&buff)
-	Response{
-		Duration: duration,
-		Data:     buff.String(),
-		Token:    t,
-		Service:  s,
-	}.Save()
+	go func() {
+		if !mongoStatsEnabled {
+			return
+		}
+		buff := bytes.Buffer{}
+		w.Header().Write(&buff)
+		Response{
+			Duration: duration,
+			Data:     buff.String(),
+			Token:    t,
+			Service:  s,
+		}.Save()
+	}()
 }
