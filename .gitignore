@@ -26,3 +26,4 @@ _testmain.go
 node_modules/
 static/assets/
 gin-bin
+npm-debug.log

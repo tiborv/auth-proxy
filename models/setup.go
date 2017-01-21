@@ -1,12 +1,13 @@
 package models
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
 
 	mongo "gopkg.in/mgo.v2"
-	redis "gopkg.in/redis.v4"
+	redis "gopkg.in/redis.v5"
 )
 
 var redisClient *redis.Client
@@ -21,6 +22,7 @@ func Connect(mongoStats bool) {
 	redisUrl := os.Getenv("REDIS_URL")
 	redisPass := os.Getenv("REDIS_PASS")
 	if redisUrl == "" {
+		fmt.Println("Connecting to localhost redis")
 		redisUrl = "localhost:6379"
 	}
 

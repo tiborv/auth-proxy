@@ -28,10 +28,6 @@
 			"Rev": "3c3a985cb79f52a3190fbc056984415ca6763d01"
 		},
 		{
-			"ImportPath": "gopkg.in/bsm/ratelimit.v1",
-			"Rev": "f14ad9c78b155f69b480cfa41cb655259baac260"
-		},
-		{
 			"ImportPath": "gopkg.in/mgo.v2",
 			"Comment": "r2015.10.05-1-g4d04138",
 			"Rev": "4d04138ffef2791c479c0c8bbffc30b34081b8d9"
@@ -52,39 +48,34 @@
 			"Rev": "4d04138ffef2791c479c0c8bbffc30b34081b8d9"
 		},
 		{
-			"ImportPath": "gopkg.in/redis.v4",
-			"Comment": "v4.1.6",
-			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+			"ImportPath": "gopkg.in/redis.v5",
+			"Comment": "v5.2.2",
+			"Rev": "8829ddcd8bdb333e477cc845946c4b9b2ef66280"
 		},
 		{
-			"ImportPath": "gopkg.in/redis.v4/internal",
-			"Comment": "v4.1.6",
-			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+			"ImportPath": "gopkg.in/redis.v5/internal",
+			"Comment": "v5.2.2",
+			"Rev": "8829ddcd8bdb333e477cc845946c4b9b2ef66280"
 		},
 		{
-			"ImportPath": "gopkg.in/redis.v4/internal/consistenthash",
-			"Comment": "v4.1.6",
-			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+			"ImportPath": "gopkg.in/redis.v5/internal/consistenthash",
+			"Comment": "v5.2.2",
+			"Rev": "8829ddcd8bdb333e477cc845946c4b9b2ef66280"
 		},
 		{
-			"ImportPath": "gopkg.in/redis.v4/internal/errors",
-			"Comment": "v4.1.6",
-			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+			"ImportPath": "gopkg.in/redis.v5/internal/hashtag",
+			"Comment": "v5.2.2",
+			"Rev": "8829ddcd8bdb333e477cc845946c4b9b2ef66280"
 		},
 		{
-			"ImportPath": "gopkg.in/redis.v4/internal/hashtag",
-			"Comment": "v4.1.6",
-			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+			"ImportPath": "gopkg.in/redis.v5/internal/pool",
+			"Comment": "v5.2.2",
+			"Rev": "8829ddcd8bdb333e477cc845946c4b9b2ef66280"
 		},
 		{
-			"ImportPath": "gopkg.in/redis.v4/internal/pool",
-			"Comment": "v4.1.6",
-			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
-		},
-		{
-			"ImportPath": "gopkg.in/redis.v4/internal/proto",
-			"Comment": "v4.1.6",
-			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+			"ImportPath": "gopkg.in/redis.v5/internal/proto",
+			"Comment": "v5.2.2",
+			"Rev": "8829ddcd8bdb333e477cc845946c4b9b2ef66280"
 		}
 	]
 }

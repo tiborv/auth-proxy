@@ -28,8 +28,8 @@ const (
 )
 
 var config = &oauth2.Config{
-	ClientID:     "53b0a3a9f041ae7e71d6",
-	ClientSecret: "23c65717d9f5295c414be2828c2e8ed93c599e7f",
+	ClientID:     os.Getenv("GIT_CLIENT_ID"),
+	ClientSecret: os.Getenv("GIT_CLIENT_SECRET"),
 	Scopes:       []string{"read:org"},
 	Endpoint:     github.Endpoint,
 	RedirectURL:  "https://auth-proxy.herokuapp.com/api/oauth/callback",

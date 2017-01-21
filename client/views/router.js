@@ -21,4 +21,5 @@ export default ({ store }) => {
         <Route path="/stats" component={StatsView} onEnter={() => {listServices(store); listClients(store)}}/>
     </Route>
   </Router>
-)}
+  )
+}
