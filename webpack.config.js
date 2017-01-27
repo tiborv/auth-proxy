@@ -46,6 +46,6 @@ module.exports = {
       }
     }),
     new ExtractTextPlugin('style.min.css'),
-    new DashboardPlugin()
-  ],
+    process.env.DASHBOARD ? new DashboardPlugin() : () => {}
+  ]
 }

@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "go run main.go",
-    "dashboard": "webpack-dashboard -- webpack-dev-server --config webpack.prod.js",
+    "dashboard": "DASHBOARD=true webpack-dashboard -- webpack-dev-server --config webpack.prod.js",
     "start:dev": "webpack-dev-server --hot --inline --progres",
     "build": "webpack --progress",
     "build:prod": "webpack --config webpack.prod.js --progress",
@@ -19,6 +19,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tiborv/auth-proxy/issues"
+  },
+  "engines": {
+    "node": "7.4.0"
   },
   "homepage": "https://github.com/tiborv/auth-proxy#readme",
   "dependencies": {
