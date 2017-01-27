@@ -23,6 +23,8 @@ _testmain.go
 *.test
 *.prof
 
+.env
+
 node_modules/
 static/assets/
 gin-bin

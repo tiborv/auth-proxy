@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/tiborv/auth-proxy/models"
 	"github.com/tiborv/auth-proxy/routes"
 )
