@@ -7,7 +7,6 @@ config.plugins[0] = new webpack.DefinePlugin({
     NODE_ENV: JSON.stringify('production')
   }
 })
-config.plugins.push(new webpack.optimize.DedupePlugin())
 config.plugins.push(new webpack.optimize.UglifyJsPlugin({
   minimize: true,
   compressor: { warnings: false },
@@ -15,10 +14,6 @@ config.plugins.push(new webpack.optimize.UglifyJsPlugin({
 }))
 config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
 config.plugins.push(new webpack.DefinePlugin({ __DEV__: false }))
-config.plugins.push(new OptimizeCssAssetsPlugin({
-  cssProcessorOptions: { discardComments: { removeAll: true } },
-  canPrint: true
-}))
 
 config.devtool = ''
 module.exports = config

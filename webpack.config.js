@@ -1,21 +1,24 @@
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const DashboardPlugin = require('webpack-dashboard/plugin')
 
 module.exports = {
   module: {
     loaders: [{
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style', 'css?-minimize!')
+      loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'file-loader!style-loader!css-loader' })
     }, {
       test: /\.png|\.jpe?g|\.gif|\.svg|\.woff|\.woff2|\.ttf|\.eot|\.ico|\.svg$/,
       loader: 'file?name=fonts/[name].[hash].[ext]?'
     }, {
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'babel'
+      loader: 'babel-loader'
     }]
   },
-  extensions: ['', '.js', '.css'],
+  resolve: {
+    extensions: ['.js', '.css']
+  },
   entry: {
     app: './client/app.js',
   },
@@ -42,6 +45,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('development')
       }
     }),
-    new ExtractTextPlugin('style.min.css')
+    new ExtractTextPlugin('style.min.css'),
+    new DashboardPlugin()
   ],
 }
