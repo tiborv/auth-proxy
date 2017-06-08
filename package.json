@@ -37,7 +37,7 @@
     "bootswatch": "3.3.7",
     "css-loader": "0.28.4",
     "eslint-import-resolver-webpack": "0.8.1",
-    "extract-text-webpack-plugin": "2.1.0",
+    "extract-text-webpack-plugin": "2.1.2",
     "file-loader": "0.11.2",
     "font-awesome": "4.7.0",
     "npm": "5.0.3",
