@@ -51,12 +51,12 @@
     "react-router": "4.1.1",
     "react-router-redux": "4.0.8",
     "redux": "3.7.1",
-    "redux-form": "6.8.0",
+    "redux-form": "7.0.0",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.2.0",
     "style-loader": "0.18.2",
     "superagent": "3.5.2",
-    "webpack": "3.1.0",
+    "webpack": "3.2.0",
     "webpack-dashboard": "0.4.0"
   },
   "devDependencies": {
