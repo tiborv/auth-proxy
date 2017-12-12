@@ -60,7 +60,7 @@
     "webpack-dashboard": "1.0.2"
   },
   "devDependencies": {
-    "eslint": "4.13.0",
+    "eslint": "4.13.1",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-react": "7.5.1",
