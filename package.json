@@ -35,7 +35,7 @@
     "bootstrap": "3.3.7",
     "bootstrap-social": "5.1.1",
     "bootswatch": "4.0.0-beta.3",
-    "css-loader": "0.28.8",
+    "css-loader": "0.28.9",
     "eslint-import-resolver-webpack": "0.8.4",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.6",
