@@ -34,7 +34,7 @@
     "bluebird": "3.5.1",
     "bootstrap": "4.0.0",
     "bootstrap-social": "5.1.1",
-    "bootswatch": "4.0.0-beta.3",
+    "bootswatch": "4.0.0",
     "css-loader": "0.28.9",
     "eslint-import-resolver-webpack": "0.8.4",
     "extract-text-webpack-plugin": "3.0.2",
@@ -60,7 +60,7 @@
     "webpack-dashboard": "1.0.2"
   },
   "devDependencies": {
-    "eslint": "4.15.0",
+    "eslint": "4.16.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-react": "7.5.1",
