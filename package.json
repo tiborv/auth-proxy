@@ -54,7 +54,7 @@
     "redux-form": "7.2.1",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.2.0",
-    "style-loader": "0.19.1",
+    "style-loader": "0.20.1",
     "superagent": "3.8.2",
     "webpack": "3.10.0",
     "webpack-dashboard": "1.1.1"
