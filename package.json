@@ -56,11 +56,11 @@
     "redux-thunk": "2.2.0",
     "style-loader": "0.20.3",
     "superagent": "3.8.2",
-    "webpack": "4.1.1",
+    "webpack": "4.2.0",
     "webpack-dashboard": "1.1.1"
   },
   "devDependencies": {
-    "eslint": "4.19.0",
+    "eslint": "4.19.1",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.9.0",
     "eslint-plugin-react": "7.7.0",
