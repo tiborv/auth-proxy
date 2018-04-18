@@ -50,13 +50,13 @@
     "react-redux": "5.0.7",
     "react-router": "4.2.0",
     "react-router-redux": "4.0.8",
-    "redux": "3.7.2",
+    "redux": "4.0.0",
     "redux-form": "7.3.0",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.2.0",
     "style-loader": "0.20.3",
     "superagent": "3.8.2",
-    "webpack": "4.5.0",
+    "webpack": "4.6.0",
     "webpack-dashboard": "1.1.1"
   },
   "devDependencies": {
