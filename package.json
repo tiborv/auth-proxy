@@ -41,7 +41,7 @@
     "file-loader": "1.1.11",
     "font-awesome": "4.7.0",
     "npm": "6.1.0",
-    "optimize-css-assets-webpack-plugin": "4.0.1",
+    "optimize-css-assets-webpack-plugin": "4.0.2",
     "purifycss-webpack-plugin": "2.0.3",
     "react": "16.4.0",
     "react-dom": "16.4.0",
