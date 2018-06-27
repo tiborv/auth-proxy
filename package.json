@@ -41,7 +41,7 @@
     "file-loader": "1.1.11",
     "font-awesome": "4.7.0",
     "npm": "6.1.0",
-    "optimize-css-assets-webpack-plugin": "4.0.2",
+    "optimize-css-assets-webpack-plugin": "4.0.3",
     "purifycss-webpack-plugin": "2.0.3",
     "react": "16.4.1",
     "react-dom": "16.4.1",
@@ -56,7 +56,7 @@
     "redux-thunk": "2.3.0",
     "style-loader": "0.21.0",
     "superagent": "3.8.3",
-    "webpack": "4.12.1",
+    "webpack": "4.12.2",
     "webpack-dashboard": "2.0.0"
   },
   "devDependencies": {
