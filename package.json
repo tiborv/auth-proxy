@@ -45,7 +45,7 @@
     "purifycss-webpack-plugin": "2.0.3",
     "react": "16.6.1",
     "react-dom": "16.6.1",
-    "react-jsonschema-form": "1.0.5",
+    "react-jsonschema-form": "1.0.6",
     "react-plotlyjs": "0.4.4",
     "react-redux": "5.1.0",
     "react-router": "4.3.1",
@@ -60,7 +60,7 @@
     "webpack-dashboard": "2.0.0"
   },
   "devDependencies": {
-    "eslint": "5.8.0",
+    "eslint": "5.9.0",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-react": "7.11.1",
