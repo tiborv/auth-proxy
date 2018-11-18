@@ -55,7 +55,7 @@
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",
     "style-loader": "0.23.1",
-    "superagent": "4.0.0-beta.5",
+    "superagent": "4.0.0",
     "webpack": "4.25.1",
     "webpack-dashboard": "2.0.0"
   },
