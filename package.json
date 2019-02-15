@@ -43,8 +43,8 @@
     "npm": "6.8.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "purifycss-webpack-plugin": "2.0.3",
-    "react": "16.8.1",
-    "react-dom": "16.8.1",
+    "react": "16.8.2",
+    "react-dom": "16.8.2",
     "react-jsonschema-form": "1.2.1",
     "react-plotlyjs": "0.4.4",
     "react-redux": "6.0.0",
@@ -57,7 +57,7 @@
     "style-loader": "0.23.1",
     "superagent": "4.1.0",
     "webpack": "4.29.3",
-    "webpack-dashboard": "2.1.0"
+    "webpack-dashboard": "3.0.0"
   },
   "devDependencies": {
     "eslint": "5.13.0",
