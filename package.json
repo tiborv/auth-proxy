@@ -51,13 +51,13 @@
     "react-router": "5.0.0",
     "react-router-redux": "4.0.8",
     "redux": "4.0.1",
-    "redux-form": "5.4.0",
+    "redux-form": "8.1.0",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",
     "style-loader": "0.23.1",
     "superagent": "4.1.0",
     "webpack": "4.29.6",
-    "webpack-dashboard": "3.0.0"
+    "webpack-dashboard": "3.0.1"
   },
   "devDependencies": {
     "eslint": "5.15.3",
