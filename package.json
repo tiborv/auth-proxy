@@ -55,9 +55,9 @@
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",
     "style-loader": "0.23.1",
-    "superagent": "5.0.0",
+    "superagent": "5.0.2",
     "webpack": "4.29.6",
-    "webpack-dashboard": "3.0.1"
+    "webpack-dashboard": "3.0.2"
   },
   "devDependencies": {
     "eslint": "5.15.3",
