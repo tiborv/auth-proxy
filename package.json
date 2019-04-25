@@ -57,7 +57,7 @@
     "style-loader": "0.23.1",
     "superagent": "5.0.2",
     "webpack": "4.30.0",
-    "webpack-dashboard": "3.0.3"
+    "webpack-dashboard": "3.0.5"
   },
   "devDependencies": {
     "eslint": "5.16.0",
