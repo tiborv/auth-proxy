@@ -48,7 +48,7 @@
     "react-jsonschema-form": "1.5.0",
     "react-plotlyjs": "0.4.4",
     "react-redux": "7.0.3",
-    "react-router": "5.0.0",
+    "react-router": "5.0.1",
     "react-router-redux": "4.0.8",
     "redux": "4.0.1",
     "redux-form": "8.2.3",
@@ -56,7 +56,7 @@
     "redux-thunk": "2.3.0",
     "style-loader": "0.23.1",
     "superagent": "5.0.5",
-    "webpack": "4.32.2",
+    "webpack": "4.33.0",
     "webpack-dashboard": "3.0.7"
   },
   "devDependencies": {
