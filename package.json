@@ -62,7 +62,7 @@
   "devDependencies": {
     "eslint": "7.2.0",
     "eslint-config-airbnb-base": "14.1.0",
-    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-import": "2.21.1",
     "eslint-plugin-react": "7.20.0",
     "file-loader": "^0.9.0",
     "webpack-dev-server": "3.11.0"
