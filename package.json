@@ -34,7 +34,7 @@
     "bluebird": "3.7.2",
     "bootstrap": "4.5.2",
     "bootstrap-social": "5.1.1",
-    "bootswatch": "4.5.1",
+    "bootswatch": "4.5.2",
     "css-loader": "4.2.1",
     "eslint-import-resolver-webpack": "0.12.2",
     "extract-text-webpack-plugin": "3.0.2",
