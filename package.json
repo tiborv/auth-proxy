@@ -35,7 +35,7 @@
     "bootstrap": "4.5.2",
     "bootstrap-social": "5.1.1",
     "bootswatch": "4.5.2",
-    "css-loader": "4.2.1",
+    "css-loader": "4.2.2",
     "eslint-import-resolver-webpack": "0.12.2",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "6.0.0",
@@ -57,7 +57,7 @@
     "style-loader": "1.2.1",
     "superagent": "6.0.0",
     "webpack": "4.44.1",
-    "webpack-dashboard": "3.2.0"
+    "webpack-dashboard": "3.2.1"
   },
   "devDependencies": {
     "eslint": "7.7.0",
