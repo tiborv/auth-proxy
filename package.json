@@ -63,7 +63,7 @@
     "eslint": "7.10.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-react": "7.21.2",
+    "eslint-plugin-react": "7.21.3",
     "file-loader": "^0.9.0",
     "webpack-dev-server": "3.11.0"
   }
