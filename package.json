@@ -40,7 +40,7 @@
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "6.2.0",
     "font-awesome": "4.7.0",
-    "npm": "6.14.8",
+    "npm": "6.14.9",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "purifycss-webpack-plugin": "2.0.3",
     "react": "17.0.1",
@@ -60,7 +60,7 @@
     "webpack-dashboard": "3.2.1"
   },
   "devDependencies": {
-    "eslint": "7.13.0",
+    "eslint": "7.14.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-react": "7.21.5",
