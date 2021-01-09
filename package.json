@@ -56,7 +56,7 @@
     "redux-thunk": "2.3.0",
     "style-loader": "2.0.0",
     "superagent": "6.1.0",
-    "webpack": "5.11.1",
+    "webpack": "5.12.1",
     "webpack-dashboard": "3.2.1"
   },
   "devDependencies": {
